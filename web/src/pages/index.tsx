@@ -8,6 +8,7 @@ import {
   FormMessage,
   Form, // https://github.com/shadcn-ui/ui/issues/800 (make sure to import form correctly)
 } from "@/components/ui/form";
+// upgrade zod by `yarn add zod@3.22.4`
 
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,8 +31,6 @@ export default function Home() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     console.log(values);
   }
 
