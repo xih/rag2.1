@@ -12,6 +12,9 @@ import {
 // upgrade zod by `yarn add zod@3.22.4`
 // add `yarn add @radix-ui/react-collapsible` to fix the Can't resolve '@radix-ui/react-collapsible' error
 
+// 2. display the notes
+// 3. get the question and answer displayed on the side too
+
 import {
   Collapsible,
   CollapsibleContent,
@@ -27,9 +30,9 @@ import { ChevronsUpDown } from "lucide-react";
 import { useState } from "react";
 import { ArxivPaperNote } from "./api/take_notes";
 
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+const questionFormSchema = z.object({
+  question: z.string().min(1, {
+    message: "question must be at least 1 character",
   }),
 });
 
@@ -37,6 +40,11 @@ type SubmitPaperData = {
   paperUrl: string;
   name: string;
   pagesToDelete?: number[];
+};
+
+type Answers = {
+  answer: string;
+  followUpQuestions: string[];
 };
 
 const submitPaperFormSchema = z.object({
@@ -53,13 +61,7 @@ export default function Home() {
     SubmitPaperData | undefined
   >();
   const [notes, setNotes] = useState<Array<ArxivPaperNote>>();
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      username: "",
-    },
-  });
+  const [answers, setAnswers] = useState<Answers>();
 
   const paperSubmitForm = useForm<z.infer<typeof submitPaperFormSchema>>({
     resolver: zodResolver(submitPaperFormSchema),
@@ -69,6 +71,50 @@ export default function Home() {
       pagesToDelete: "10, 11, 12",
     },
   });
+
+  const questionForm = useForm<z.infer<typeof questionFormSchema>>({
+    resolver: zodResolver(questionFormSchema),
+    defaultValues: {
+      question: "why is the sky blue?",
+    },
+  });
+
+  async function onQuestionSubmit(values: z.infer<typeof questionFormSchema>) {
+    if (!submittedPaperData) {
+      throw new Error("no paper submitted");
+    }
+
+    const data = {
+      ...values,
+      paperUrl: submittedPaperData.paperUrl,
+    };
+
+    console.log(values);
+    // what do i have to do here?
+    // 0. check that there is a submitted question
+    // 0.1 construct a data object
+    // 1. set the questionData
+    // 2. fetch(api/qa)
+    // 3. values needs to have the question and the paper for the backend
+
+    const response = await fetch("/api/qa", {
+      method: "post",
+      body: JSON.stringify(data),
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return null;
+    });
+
+    if (response) {
+      console.log(response);
+      setAnswers(response);
+      return;
+    } else {
+      throw new Error("something went wrong getting answers");
+    }
+  }
 
   async function paperSubmit(values: z.infer<typeof submitPaperFormSchema>) {
     // 1. check that values are the correct type
@@ -105,7 +151,6 @@ export default function Home() {
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-row gap-5 mx-auto mt-5">
-        {/* <Button>hello world</Button> */}
         <div className="flex flex-col border-2 border-gray-200 rounded-md p-2">
           <div>
             <h1>Input your favorite paper</h1>
@@ -178,6 +223,43 @@ export default function Home() {
             </Form>
           </div>
         </div>
+
+        <div className="flex flex-col border-2 border-gray-200 rounded-md p-2">
+          <Form {...questionForm}>
+            <form
+              onSubmit={questionForm.handleSubmit(onQuestionSubmit)}
+              className="space-y-8"
+            >
+              <FormField
+                control={questionForm.control}
+                name="question"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Question</FormLabel>
+                    <FormControl>
+                      <Input placeholder="what's your question" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      Input your question for this paper
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit">Submit</Button>
+            </form>
+          </Form>
+        </div>
+      </div>
+      <div>
+        {notes &&
+          notes.length > 0 &&
+          notes.map((note, index) => (
+            <div key={index} className="max-w-[600px] p-2 gap-2">
+              <p>{note.note}</p>
+              <p>{note.pageNumbers}</p>
+            </div>
+          ))}
       </div>
     </div>
   );
