@@ -2,7 +2,7 @@ import { ChatPromptTemplate } from "langchain/prompts";
 import { BaseMessageChunk } from "langchain/schema";
 import type { OpenAI as OpenAIClient } from "openai";
 
-export type ArxivPaperNotes = {
+export type ArxivPaperNote = {
   note: string;
   pageNumbers: Array<number>;
 };

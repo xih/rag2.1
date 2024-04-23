@@ -19,7 +19,7 @@ import { Document } from "langchain/document";
 import { ChatOpenAI } from "langchain/chat_models/openai";
 import { formatDocumentsAsString } from "langchain/util/document";
 import {
-  ArxivPaperNotes,
+  ArxivPaperNote,
   NOTES_TOOL_SCHEMA,
   NOTE_PROMPT,
   noteOutputParser,
@@ -30,6 +30,7 @@ import textract from "textract";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { PDFLoader } from "langchain/document_loaders/fs/pdf";
 import { v4 as uuidv4 } from "uuid";
+import { SupabaseDatabase } from "database.js";
 
 const loadPaperFromUrl = async (url: string) => {
   const response = await axios.get(url, {
@@ -174,7 +175,7 @@ const convertedPDFtoDocuments4 = async (
 
 const generateNotes = async (
   documents: Document[]
-): Promise<Array<ArxivPaperNotes>> => {
+): Promise<Array<ArxivPaperNote>> => {
   // 1. format Documents as string
 
   const documentsAsString = formatDocumentsAsString(documents);
@@ -184,7 +185,7 @@ const generateNotes = async (
   const model = new ChatOpenAI({
     modelName: "gpt-3.5-turbo-0125",
     temperature: 0.0,
-    maxTokens: 16385,
+    // maxTokens: 10000,
   });
 
   const modelWithTool = model.bind({
@@ -234,35 +235,49 @@ const takeNotes = async ({
   // console.log(`Documents written to ${fileName} successfully.`);
 
   // generate notes from this
-  const notes = await convertedPDFtoDocuments4(pdf);
-
-  console.log(notes, "notes");
+  const documents = await convertedPDFtoDocuments4(pdf);
 
   // what do i do after getting notes?
   // 1. create new documents with metadata for the paperURL
   // 2. save it to the database
   // 3. return notes
-  // const newDocs: Array<Document> = documents.map((doc) => {
-  //   return {
-  //     ...doc,
-  //     metadata: {
-  //       ...doc.metadata,
-  //       url: paperUrl,
-  //     },
-  //   };
-  // });
+  const newDocs: Array<Document> = documents.map((doc) => {
+    return {
+      ...doc,
+      metadata: {
+        ...doc.metadata,
+        url: paperUrl,
+      },
+    };
+  });
 
-  // const database = await
+  const database = await SupabaseDatabase.fromDocuments(newDocs);
 
-  // console.log(notes, "notes");
+  const notes = await generateNotes(documents);
 
-  // return notes;
+  // create a promise to
+  // 1. addPpaers to the database
+  // 2. add documents to the vectorStore
+
+  await Promise.all([
+    await database.addPaper({
+      name,
+      paperUrl,
+      notes,
+      paper: formatDocumentsAsString(newDocs),
+    }),
+    database.vectorStore.addDocuments(newDocs),
+  ]);
+
+  return notes;
 };
 
-await takeNotes({
-  paperUrl: "https://arxiv.org/pdf/2305.15334.pdf",
-  name: "test",
-});
+console.log(
+  await takeNotes({
+    paperUrl: "https://arxiv.org/pdf/2404.14270.pdf",
+    name: "What do Transformers Know about Government?",
+  })
+);
 
 // const output = await convertedPDFtoDocuments3(`src/pdfs/6l5ve.pdf`);
 // console.log(output);
