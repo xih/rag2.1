@@ -272,12 +272,12 @@ const takeNotes = async ({
   return notes;
 };
 
-console.log(
-  await takeNotes({
-    paperUrl: "https://arxiv.org/pdf/2404.14270.pdf",
-    name: "What do Transformers Know about Government?",
-  })
-);
+// console.log(
+//   await takeNotes({
+//     paperUrl: "https://arxiv.org/pdf/2404.14270.pdf",
+//     name: "What do Transformers Know about Government?",
+//   })
+// );
 
 // const output = await convertedPDFtoDocuments3(`src/pdfs/6l5ve.pdf`);
 // console.log(output);
