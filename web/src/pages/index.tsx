@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/form";
 // upgrade zod by `yarn add zod@3.22.4`
 // add `yarn add @radix-ui/react-collapsible` to fix the Can't resolve '@radix-ui/react-collapsible' error
+
 import {
   Collapsible,
   CollapsibleContent,
@@ -23,6 +24,7 @@ import { useForm } from "react-hook-form";
 
 import { z } from "zod";
 import { ChevronsUpDown } from "lucide-react";
+import { useState } from "react";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -42,7 +44,20 @@ const submitPaperFormSchema = z.object({
   pagesToDelete: z.string().optional(),
 });
 
+type ArxivPaperNote = {
+  notes: string;
+  pageNumbers: string[];
+};
+
+const processPagesToDelete = (pagesToDelete: string): number[] =>
+  pagesToDelete.split(",").map(Number);
+
 export default function Home() {
+  const [submittedPaperData, setSubmittedPaperData] = useState<
+    SubmitPaperData | undefined
+  >();
+  const [notes, setNotes] = useState<Array<ArxivPaperNote>>();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -59,12 +74,36 @@ export default function Home() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof submitPaperFormSchema>) {
+  async function paperSubmit(values: z.infer<typeof submitPaperFormSchema>) {
+    // 1. check that values are the correct type
+    // 1.1 convert values.pagesToDelete to an array of numbers
+    // 2. pass it to my backend which would be /api/take_notes
+    // 3. check that it exists in my datase
+    // 4. save the reponse to my state
     console.log(values);
-  }
+    setSubmittedPaperData({
+      ...values,
+      pagesToDelete: values.pagesToDelete
+        ? processPagesToDelete(values.pagesToDelete)
+        : undefined,
+    });
 
-  function paperSubmit(values: z.infer<typeof submitPaperFormSchema>) {
-    console.log(values);
+    const response = await fetch("/api/take_notes", {
+      method: "post",
+      body: JSON.stringify(values),
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return "a";
+    });
+
+    if (response) {
+      console.log(response);
+      setNotes(response);
+    } else {
+      throw new Error("error while taking notes");
+    }
   }
 
   return (
@@ -77,7 +116,7 @@ export default function Home() {
             <div />
             <Form {...paperSubmitForm}>
               <form
-                onSubmit={paperSubmitForm.handleSubmit(onSubmit)}
+                onSubmit={paperSubmitForm.handleSubmit(paperSubmit)}
                 className="space-y-8"
               >
                 <FormField
