@@ -25,6 +25,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { ChevronsUpDown } from "lucide-react";
 import { useState } from "react";
+import { ArxivPaperNote } from "./api/take_notes";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -43,11 +44,6 @@ const submitPaperFormSchema = z.object({
   name: z.string(),
   pagesToDelete: z.string().optional(),
 });
-
-type ArxivPaperNote = {
-  notes: string;
-  pageNumbers: string[];
-};
 
 const processPagesToDelete = (pagesToDelete: string): number[] =>
   pagesToDelete.split(",").map(Number);
