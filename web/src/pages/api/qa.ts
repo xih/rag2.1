@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-type QaResponse = {
+export type QaResponse = {
   answer: string;
   followupQuestions: string[];
 };
@@ -8,7 +8,7 @@ type QaResponse = {
 const hardcodedAnswer = [
   {
     answer:
-      "The emotion features in irony detection include sentiment analysis, emotion classification, and sarcasm detection. These features help in identifying the underlying emotions and intentions behind ironic statements. Followup questions: 1. How do sentiment analysis techniques contribute to irony detection? 2. What are the challenges in accurately classifying emotions in ironic statements? 3. How can sarcasm detection algorithms be improved for better irony detection?",
+      "The emotion features in irony detection include sentiment analysis, emotion classification, and sarcasm detection. These features help in identifying the underlying emotions and intentions behind ironic statements.",
     followupQuestions: [
       "How do sentiment analysis techniques contribute to irony detection?",
       "What are the challenges in accurately classifying emotions in ironic statements?",

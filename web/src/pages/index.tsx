@@ -29,6 +29,7 @@ import { z } from "zod";
 import { ChevronsUpDown } from "lucide-react";
 import { useState } from "react";
 import { ArxivPaperNote } from "./api/take_notes";
+import { QaResponse } from "./api/qa";
 
 const questionFormSchema = z.object({
   question: z.string().min(1, {
@@ -61,7 +62,7 @@ export default function Home() {
     SubmitPaperData | undefined
   >();
   const [notes, setNotes] = useState<Array<ArxivPaperNote>>();
-  const [answers, setAnswers] = useState<Answers>();
+  const [answers, setAnswers] = useState<Array<QaResponse>>();
 
   const paperSubmitForm = useForm<z.infer<typeof submitPaperFormSchema>>({
     resolver: zodResolver(submitPaperFormSchema),
@@ -110,6 +111,7 @@ export default function Home() {
     if (response) {
       console.log(response);
       setAnswers(response);
+      console.log(answers, "answers");
       return;
     } else {
       throw new Error("something went wrong getting answers");
@@ -251,15 +253,47 @@ export default function Home() {
           </Form>
         </div>
       </div>
-      <div>
-        {notes &&
-          notes.length > 0 &&
-          notes.map((note, index) => (
-            <div key={index} className="max-w-[600px] p-2 gap-2">
-              <p>{note.note}</p>
-              <p>{note.pageNumbers}</p>
+      <div className="flex flex-row gap-5 mx-auto mt-3">
+        {notes && notes.length > 0 && (
+          <div>
+            <h2>Notes</h2>
+            <div className="flex flex-col gap-2">
+              {notes.map((note, index) => (
+                <div key={index} className="flex flex-col gap-2 p-2">
+                  <p>
+                    {index + 1}. {note.note}
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    [{note.pageNumbers.join(",")}]
+                  </p>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+        )}
+
+        {answers && answers.length > 0 && (
+          <div className="flex flex-col gap-2 max-w-[600px]">
+            <h2>Answers</h2>
+            <div className="flex flex-col gap-2">
+              {answers.map((answer, index) => (
+                <div key={index} className="flex flex-col gap-1 p-3">
+                  <p>
+                    {index + 1}. {answer.answer}
+                  </p>
+                  <p>Follow up questions:</p>
+                  <div className="flex flex-col gap-2 p-2">
+                    {answer.followupQuestions.map((followup, followupIndex) => (
+                      <p key={followupIndex} className="text-sm gray-400">
+                        {followup}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
