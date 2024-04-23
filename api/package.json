@@ -8,7 +8,7 @@
     "dist/"
   ],
   "scripts": {
-    "build": "yarn gen:supabase:types && tsc --declaration --outDir dist/",
+    "build": "yarn gen:supabase:types2 && tsc --declaration --outDir dist/",
     "start": "tsx --experimental-wasm-modules -r dotenv/config src/notes/index.ts dotenv_config_path=.env.development.local",
     "start:dist": "yarn build && node -r dotenv/config dist/server.js",
     "lint": "eslint src",
@@ -16,7 +16,8 @@
     "precommit": "lint-staged",
     "format": "prettier --write \"**/*.ts\"",
     "format:check": "prettier --check \"**/*.ts\"",
-    "gen:supabase:types": "touch ./src/generated/db.ts && supabase gen types typescript --schema public > ./src/generated/db.ts --project-id dxuwpmzwmlpbbfwfgezn"
+    "gen:supabase:types": "touch ./src/generated/db.ts && supabase gen types typescript --schema public > ./src/generated/db.ts --project-id dxuwpmzwmlpbbfwfgezn",
+    "gen:supabase:types2": "if [ ! -d './src/generated' ]; then mkdir -p ./src/generated; fi && touch ./src/generated/db.ts && supabase gen types typescript --schema public > ./src/generated/db.ts --project-id dxuwpmzwmlpbbfwfgezn"
   },
   "author": "LangChain",
   "license": "MIT",
