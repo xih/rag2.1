@@ -1,0 +1,2372 @@
+[
+  {
+    "pageContent": "Gorilla: Large Language Model Connected with Massive APIs",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 1,
+      "filename": "9hnja.pdf",
+      "category": "Title"
+    }
+  },
+  {
+    "pageContent": "3 2 0 2 y a M 4 2 ] L C . s c [ 1 v 4 3 3 5 1 . 5 0 3 2 : v i X r a",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 1,
+      "filename": "9hnja.pdf",
+      "category": "Header"
+    }
+  },
+  {
+    "pageContent": "Joseph E. Gonzalez1",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 1,
+      "parent_id": "af6f7e2c8e175043b7f230c544af5d89",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "Shishir G. Patil1∗ Tianjun Zhang1,∗ Xin Wang2 1UC Berkeley",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 1,
+      "parent_id": "af6f7e2c8e175043b7f230c544af5d89",
+      "filename": "9hnja.pdf",
+      "category": "Title"
+    }
+  },
+  {
+    "pageContent": "2Microsoft Research",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 1,
+      "parent_id": "af6f7e2c8e175043b7f230c544af5d89",
+      "filename": "9hnja.pdf",
+      "category": "Title"
+    }
+  },
+  {
+    "pageContent": "sgp@berkeley.edu",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 1,
+      "parent_id": "dfba9e576dde63aec738226df9dc7330",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "Abstract",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 1,
+      "parent_id": "af6f7e2c8e175043b7f230c544af5d89",
+      "filename": "9hnja.pdf",
+      "category": "Title"
+    }
+  },
+  {
+    "pageContent": "Large Language Models (LLMs) have seen an impressive wave of advances re- cently, with models now excelling in a variety of tasks, such as mathematical reasoning and program synthesis. However, their potential to effectively use tools via API calls remains unfulfilled. This is a challenging task even for today’s state-of- the-art LLMs such as GPT-4, largely due to their inability to generate accurate input arguments and their tendency to hallucinate the wrong usage of an API call. We release Gorilla, a finetuned LLaMA-based model that surpasses the performance of GPT-4 on writing API calls. When combined with a document retriever, Gorilla demonstrates a strong capability to adapt to test-time document changes, enabling flexible user updates or version changes. It also substantially mitigates the issue of hallucination, commonly encountered when prompting LLMs directly. To evaluate the model’s ability, we introduce APIBench, a comprehensive dataset consisting of HuggingFace, TorchHub, and TensorHub APIs. The successful integration of the retrieval system with Gorilla demonstrates the potential for LLMs to use tools more accurately, keep up with frequently updated documentation, and consequently increase the reliability and applicability of their outputs. Gorilla’s code, model, data, and demo are available at https://gorilla.cs.berkeley.edu",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 1,
+      "parent_id": "ebf237f98f05c4390df1cde93629de8d",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "1 Introduction",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 1,
+      "parent_id": "af6f7e2c8e175043b7f230c544af5d89",
+      "filename": "9hnja.pdf",
+      "category": "Title"
+    }
+  },
+  {
+    "pageContent": "Recent advances in large language models (LLMs) [10, 5, 32, 6, 29, 30] have enabled significant new capabilities including natural dialogue, mathematical reasoning, and program synthesis. However, despite these advances, LLMs are still fundamentally limited by the information they can store in a fixed set of weights and the things they can compute using a static computation graph and limited context. Furthermore, as the world changes, LLMs require retraining to update their knowledge and reasoning capabilities.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 1,
+      "parent_id": "352d3dd2452ac6a0fee997ac04d0d6a9",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "By empowering LLMs to use tools [33], we can grant access to vastly larger and changing knowledge bases and accomplish complex computational tasks. By providing access to search technologies and databases, [26, 39, 37] demonstrated that we can augment LLMs to address a significantly larger and more dynamic knowledge space. Similarly, by providing access to computational tools, [39, 2] demonstrated that LLMs can accomplish complex computational tasks. Consequently, leading LLM providers[29], have started to integrate plugins to allow LLMs to invoke external tools through APIs.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 1,
+      "parent_id": "352d3dd2452ac6a0fee997ac04d0d6a9",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "This transition from a small set of hand-coded tools, to the ability to invoke a vast space of changing cloud APIs could transform LLMs into the primary interface to computing infrastructure and the web. Tasks ranging from booking an entire vacation to hosting a conference, could become as simple as talking to an LLM that has access to the flight, car rental, hotel, catering, and entertainment web APIs. However, much of the prior work [35, 24] integrating tools into LLMs considered a small well documented set of APIs that can be easily injected into the prompt.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 1,
+      "parent_id": "352d3dd2452ac6a0fee997ac04d0d6a9",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "∗Equal contribution.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 1,
+      "parent_id": "af6f7e2c8e175043b7f230c544af5d89",
+      "filename": "9hnja.pdf",
+      "category": "Title"
+    }
+  },
+  {
+    "pageContent": "Preprint. Under review.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 1,
+      "parent_id": "95e4dfbea0982b8b7c2e21f3f154a580",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "<domain>: Speech-to-Text <domain>: Audio-Translation <domain>: Speech-to-Text <api_provider>: TorchHub <api_provider>: Pytorch <api_provider>: TorchHub <code>: <code>: <code>: asr_model = o import torchaudio asr_model = o torch.hub.load ( translation = torch.hub.load ( 'snakers4/silero-models', Torchaudio.pipelines. 'snakers4/silero-models', 'asr', source='local') WAV2VEC2_ASR_PIPELINE ( result = 'silero_sst’) result = \"audio.wav\") asr_model . transcribe ( asr_model. transcribe ( audio_path) audio_path) Good to go! Prompt: Help me find an API to convert the spoken language in a recorded audio to text using Torch Hub.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 2,
+      "filename": "9hnja.pdf",
+      "category": "Image"
+    }
+  },
+  {
+    "pageContent": "Figure 1: Examples of API calls. Example API calls generated by GPT-4 [29], Claude [3], and Gorilla for the given prompt. In this example, GPT-4 presents a model that doesn’t exist, and Claude picks an incorrect library. In contrast, our Gorilla model can identify the task correctly and suggest a fully-qualified API call.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 2,
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "0-shot with BM25-Retriever with GPT-Retriever with Oracle Retriever 100 100 100 100Gorilla 50 %0 a0 Gorilla Q2 o 0 0 Gorilla o @®GPT-3.5 70 7 GPT-3.5 7 0 60 s0 0 0 s0 0 Cl. aud.e GPT-4 GPT-3.5 0 GPT-3.5 Claude w0 ‘. Claude W 0 @® GPT-4 GPT-4 Accuracy 2 Claude 20 Gorilla GPT-4 2 LLAMA 20 LLAMA 10 LLAMA o 10 LLAMA 10 10 © 10 20 30 40 50 60 70 80 50 100 § 10 20 30 40 50 60 70 80 90 100 © 10 20 30 40 50 60 70 80 50 100 § 1o 20 30 40 50 60 70 80 90 100 Hallucination Hallucination Hallucination Hallucination",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 2,
+      "filename": "9hnja.pdf",
+      "category": "Image"
+    }
+  },
+  {
+    "pageContent": "Figure 2: Accuracy (vs) hallucination in four settings, that is, zero-shot (i.e., without any retriever), and with retrievers. BM25 and GPT are commonly used retrievers and the oracle retriever returns relevant documents at 100%, indicating an upper bound. Higher in the graph (higher accuracy) and to the left is better (lower hallucination). Across the entire dataset, our model, Gorilla, improves accuracy while reducing hallucination.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 2,
+      "filename": "9hnja.pdf",
+      "category": "FigureCaption"
+    }
+  },
+  {
+    "pageContent": "Supporting a web scale collection of potentially millions of changing APIs requires rethinking our approach to how we integrate tools. It is not longer possible to describe the full set of APIs in a single context. Many of the APIs will have overlapping functionality with nuanced limitations and constraints. Simply evaluating LLMs in this new setting requires new benchmarks.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 2,
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "In this paper, we explore the use of self-instruct fine-tuning and retrieval to enable LLMs to accu- rately select from a large, overlapping, and changing set tools expressed using their APIs and API documentation. We construct, APIBench, a large corpus of APIs with complex and often overlapping functionality by scraping ML APIs (models) from public model hubs. We choose three major model hubs for dataset construction: TorchHub, TensorHub and HuggingFace. We exhaustively include every API call in TorchHub (94 API calls) and TensorHub (696 API calls); For HuggingFace, since the models come in a large number and lots of the models don’t have a specification, we choose the most downloaded 20 models per task category (in a total of 925). We also generate 10 synthetic user question prompts per API using Self-Instruct [42]. Thus, each entry in the dataset becomes an instruction reference API pair. We adopt a common AST sub-tree matching technique to evaluate the functional correctness of the generated API. We first parse the generated code into an AST tree, then find a sub-tree whose root node is the API call that we care about (e.g., torch.hub.load) and use it to index our dataset. We check the functional correctness and hallucination problem for the LLMs, reporting the corresponding accuracy.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 2,
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "We then finetune Gorilla, a LLaMA-7B-based model with document retrieval using our dataset. We find that Gorilla significantly outperforms GPT-4 in terms of API functionality accuracy as well as reducing hallucination errors. We show an example output in Fig. 1. Further, our retrieval-aware training of Gorilla enables the model to adapt to changes in the API documentation. Finally, we demonstrate Gorilla’s ability to understand and reason about constraints.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 2,
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "2",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 2,
+      "filename": "9hnja.pdf",
+      "category": "Footer"
+    }
+  },
+  {
+    "pageContent": "2 Related Work",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 3,
+      "filename": "9hnja.pdf",
+      "category": "Title"
+    }
+  },
+  {
+    "pageContent": "Large Language Models Recent strides in the field of LLMs have renovated many downstream domains [10, 40, 48, 47], not only in traditional natural language processing tasks but also in program synthesis. Many of these advances are achieved by augmenting pre-trained LLMs by prompting [44, 14] and instruction fine-tuning [11, 31, 43, 15]. Recent open-sourced models like LLaMa [40], Alpaca [38], and Vicuna [9] have furthered the understanding of LLMs and facilitated their experimentation. While our approach, Gorilla, incorporates techniques akin to those mentioned, its primary emphasis is on enhancing the LLMs’ ability to utilize millions of tools, as opposed to refining their conversational skills. Additionally, we pioneer the study of fine-tuning a base model by supplementing it with information retrieval - a first, to the best of our knowledge.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 3,
+      "parent_id": "d2e1a97795476cc4aba05a95edc57860",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "Tool Usage The discussion of tool usage within LLMs has seen an upsurge, with models like Toolformer taking the lead [33, 19, 21, 26]. Tools often incorporated include web-browsing [34], calculators [12, 39], translation systems [39], and Python interpreters [14]. While these efforts can be seen as preliminary explorations of marrying LLMs with tool usage, they generally focus on specific tools. Our paper, in contrast, aims to explore a vast array of tools (i.e., API calls) in an open-ended fashion, potentially covering a wide range of applications.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 3,
+      "parent_id": "d2e1a97795476cc4aba05a95edc57860",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "With the recent launch of Toolformer [33] and GPT-4 [29], the importance of API calls has been highlighted, encouraging many works in employing API calls as tooling [35, 24]. Moreover, the application of API calls in robotics has been explored to some extent [41, 1]. However, these works primarily aim at showcasing the potential of “prompting” LLMs rather than establishing a systematic method for evaluation and training (including fine-tuning). Our work, on the other hand, concentrates on systematic evaluation and building a pipeline for future use.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 3,
+      "parent_id": "d2e1a97795476cc4aba05a95edc57860",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "LLMs for Program Synthesis Harnessing LLMs for program synthesis has historically been a challenging task [23, 7, 45, 16, 13, 20]. Researchers have proposed an array of strategies to prompt LLMs to perform better in coding tasks, including in-context learning [44, 18, 7], task decomposition [17, 46], and self-debugging [8, 36]. Besides prompting, there have also been efforts to pretrain language models specifically for code generation [28, 22, 27].",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 3,
+      "parent_id": "d2e1a97795476cc4aba05a95edc57860",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "However, these strategies focus on prompting large language models or pre-training them for general program synthesis. In our research, in contrast, we focus on a much restricted domain: the synthesis of linear programs using API calls. General program synthesis, not only is complex, but is also hard to verify and evaluate. API calls, on the other hand, function more like tool usage. This allows the LLM to significantly expand its capabilities without grappling with low-level implementation details.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 3,
+      "parent_id": "d2e1a97795476cc4aba05a95edc57860",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "3 Methodology",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 3,
+      "filename": "9hnja.pdf",
+      "category": "Title"
+    }
+  },
+  {
+    "pageContent": "In this section, we describe APIBench, a comprehensive benchmark constructed from TorchHub, TensorHub, and HuggingFace API Model Cards. We begin by outlining the process of collecting the API dataset and how we generated instruction-answer pairs. We then introduce Gorilla, a novel training paradigm with a information–retriever incorporated into the training and inference pipelines. Finally, we present our AST tree matching evaluation metric.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 3,
+      "parent_id": "9a71d365b89c8fe8dc0e4e477ec20903",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "3.1 Dataset Collection",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 3,
+      "filename": "9hnja.pdf",
+      "category": "Title"
+    }
+  },
+  {
+    "pageContent": "To collect the dataset, we meticulously recorded all online model cards for HuggingFace’s “The Model Hub”, PyTorch Hub, and TensorFlow Hub Models. Throughout the rest of the paper, we call these HuggingFace, Torch Hub, and TensorFlow Hub respectively for brevity.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 3,
+      "parent_id": "7612b780dc97c07fed0afccba37d5048",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "API Documentation The HuggingFace platform hosts and servers about 203,681 models. However, many of them have poor documentation, lack dependencies, have no information in their model card, etc. To filter these out, we pick the top 20 models from each domain. We consider 7 domains in multimodal data, 8 in CV, 12 in NLP, 5 in Audio, 2 in tabular data, and 2 in reinforcement learning. Post filtering, we got a total of 925 models from HuggingFace. TensorFlow Hub is versioned into v1 and v2. The latest version (v2) has 801 models in total, and we process all of them. Post filtering out models, whose mode cards had little to no information, we are left with 626 models. Similar to",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 3,
+      "parent_id": "7612b780dc97c07fed0afccba37d5048",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "3",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 3,
+      "filename": "9hnja.pdf",
+      "category": "Footer"
+    }
+  },
+  {
+    "pageContent": "= PYTORCH HuB N WA GORILLA CJsoN] “-’ Dataset curation: 1,645 AP calls. 94 from Torch Self-instruct with in-context This is then used to Hub (exhaustive), 626 from TensorFlow Hub v2 examples to generate train Gorilla-78 (exhaustive) and 925 from HuggingFace (Top 20 16,450 {instruction,API} pairs in each domain) 2 API Database API:StableDiffusionPipelin e.from_pretrained(stabilit i) yai/stable-diffusion-2-1) e e @ Input: & “l want to see ###Task: Generate image some cats dancing Information from text Retriever #it#iReference API RY -} in celebration!” StableDiffusionPipeline.from ILLA pretrained (.. Execution Results! Zero-shot",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 4,
+      "filename": "9hnja.pdf",
+      "category": "Image"
+    }
+  },
+  {
+    "pageContent": "Figure 3: Gorilla: A system for enabling LLMs to interact with APIs. The upper half represents the training procedure as described in Sec 3. This is the most exhaustive API data-set for ML to the best of our knowledge. During inference (lower half), Gorilla supports two modes - with retrieval, and zero-shot. In this example, it is able to suggest the right API call for generating the image from the user’s natural language query.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 4,
+      "filename": "9hnja.pdf",
+      "category": "FigureCaption"
+    }
+  },
+  {
+    "pageContent": "TensorFlow Hub, we get 95 models from Torch Hub. We then converted the model cards for each of these 1,645 API calls into a json object with the following fields: {domain, framework, functionality, api_name, api_call, api_arguments, environment_requirements, example_code, performance, and description.}. We provide more information in the Appendix. These fields were chose to generalize beyond the API calls within ML domain, to other domains, includin RESTful API calls.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 4,
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "Instruction Generation Guided by the self-instruct paradigm [42], we employed GPT-4 to generate synthetic instruction data. We provided three in-context examples, along with a reference API documentation, and tasked the model with generating real-world use cases that call upon the API. We specifically instructed the model to refrain from using any API names or hints when creating instructions. We constructed six examples (Instruction-API pairs) for each of the three model hubs. These 18 points, were the only hand-generated or modified data. For each of our 1,645 API datapoints, we sample 3 of 6 corresponding instruction examples to generate a total of 10 instruction-api pairs as demonstrated in Figure 3. We would like to highlight that we only need to employ GPT-4 to generate the instructions and this can be swapped with open-source alternatives such as LLaMA, Alpaca, etc.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 4,
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "3.2 Gorilla",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 4,
+      "filename": "9hnja.pdf",
+      "category": "Title"
+    }
+  },
+  {
+    "pageContent": "Our model Gorilla, is retrieve-aware finetuned LLaMA-7B model, specifically for API calls. As shown in Fig 3, we employ self-instruct to generate {instruction, API} pairs. To fine-tune LLaMA, we convert this to a user-agent chat-style conversation, where each data-point is a conversation with one round each for the user and the agent. We then perform standard instruction finetuning on the base LLaMA-7B model. For our experiments, we train Gorilla with and without the retriever.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 4,
+      "parent_id": "f5962d7346a00c2a02b9ab958df588ba",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "API Call with Constraints API calls often come with inherent constraints. These con- straints necessitate that the LLM not only comprehend the functionality of the API call but also categorize the calls according to different constraint parameters. This requirement in- troduces an additional layer of complexity to the process, demanding a more nuanced under- standing from the LLM. Specifically, for machine learning API calls, two common sets of constraints are: parameter size and a lower bound on accuracy. Consider, for instance, the",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 4,
+      "parent_id": "f5962d7346a00c2a02b9ab958df588ba",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "4",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 4,
+      "filename": "9hnja.pdf",
+      "category": "Footer"
+    }
+  },
+  {
+    "pageContent": "following prompt: “Invoke an image classification model that uses less than 10M parameters, but maintains an ImageNet accuracy of at least 70%”. Such a prompt presents a substantial challenge for the LLM to accurately interpret and respond to. Not only must the LLM understand the user’s functional description, but it also needs to reason about the various constraints embedded within the request. This challenge underlines the intricate demands placed on LLMs in real-world API calls. It is not sufficient for the model to merely comprehend the basic functionality of an API call; it must also be capable of navigating the complex landscape of constraints that accompany such calls. These observations necessitate the need to fine-tune an LLM for APIs.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 5,
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "Retriever-Aware training For training with retriever, the instruction-tuned dataset, also has an ad- ditional \"Use this API documentation for reference: <retrieved_API_doc_JSON>\" appended to the user prompt. Through this, we aim to teach the LLM to parse the second half of the question to answer the first half. We demonstrate that this a) makes the LLM adapt to test-time changes in API documentation, and b) improves performance from in-context learning, and finally c) show that it reduces hallucination error.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 5,
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "Surprisingly, we find that augmenting a LLM with retrieval, does not always lead to improved performance, and can at-times hurt performance. We share more insights along with details in Sec 4.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 5,
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "Gorilla Inference During Inference, the user provides the prompt in natural language (Fig: 3). This can be for a simple task (e.g, “I would like to identify the objects in an image”), or they can specify a vague goal, (.e.g, “I am going to the zoo, and would like to track animals”). Gorilla, similar to training, can be used for inference in two modes: zero-shot and with retrieval. In zero-shot, this prompt (with NO further prompt tuning) is fed to the Gorilla LLM model when then returns the API call that will help in accomplishing the task and/or goal. In retrieval mode, the retriever (either of BM25 or GPT-Index) first retrieves the most up-to-date API documentation stored in the API Database. This is then concatenated to the user prompt along with the message Use this API documentation for reference: before feeding it to Gorilla. The output of Gorilla is an API to be invoked. Besides the concatenation as described, we do NO further prompt tuning in our system. While we do have a system to execute these APIs, that is not a focus of this paper.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 5,
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "3.3 Verifying APIs",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 5,
+      "filename": "9hnja.pdf",
+      "category": "Title"
+    }
+  },
+  {
+    "pageContent": "Inductive program synthesis, where a program is synthesized to satisfy test cases, has found success in several avenues [4, 25]. However, test cases fall short when evaluating API calls, as it is often hard to verify the semantic correctness of the code. For example, consider the task of classifying an image. There are over 40 different models that can be used for the task. Even if we were to narrow down to a single family of Densenet, there are four different configurations possible. Hence, there exist multiple correct answers and it is hard to tell if the API being used is functionally equivalent to the reference API by unit tests. Thus, to evaluate the performance of our model, we compare their functional equivalence using the dataset we collected. To trace which API in the dataset is the LLM calling, we adopt the AST tree-matching strategy. Since we only consider one API call in this paper, checking if the AST of the candidate API call is a sub-tree of the reference API call reveals which API is being used in the dataset.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 5,
+      "parent_id": "9ae09ec528dea70dcaefdca2fe37a360",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "Identifying and even defining hallucinations can be challenging. We use the AST matching process to directly identify the hallucinations. We define a hallucination as an API call that is not a sub-tree of any API in the database – invoking an entirely imagined tool. This form of hallucination is distinct from invoking an API incorrectly which we instead define as an error.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 5,
+      "parent_id": "9ae09ec528dea70dcaefdca2fe37a360",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "AST Sub-Tree Matching We perform AST sub-tree matching to identify which API in our dataset is the LLM calling. Since each API call can have many arguments, we need to match on each of these arguments. Further, since, Python allows for default arguments, for each API, we define which arguments to match in our database. For example, we check repo_or_dir and model arguments in our function call. In this way, we can easily check if the argument matches the reference API or not. Please refer to Fig. 4 for more details. In this example, Gorilla returns a torch API call. We first build the tree, and verify that it matches a subtree in our dataset along nodes torch.hub.load, pytorch/vision, and densenet121. But, we don’t check for match along leaf node pretrained = True since that is an optional python argument.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 5,
+      "parent_id": "9ae09ec528dea70dcaefdca2fe37a360",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "5",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 5,
+      "filename": "9hnja.pdf",
+      "category": "Footer"
+    }
+  },
+  {
+    "pageContent": "torch.hub.load(’'pytorch/vision:v0.10.0\" ‘densenetl2l’, pretrained=True) y ‘ utils ‘ Tensor torch m o del_zoo I m () repo: = pytorch/vision e esormers ytorch/vision model model model densenet121 densenetl161 ( densenet121 ( densenet201 J /\\ pretrained = True pretrained: True pretrained: False",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 6,
+      "filename": "9hnja.pdf",
+      "category": "Image"
+    }
+  },
+  {
+    "pageContent": "Figure 4: AST Sub-Tree Matching to evaluate API calls. On the left is an API call returned by Gorilla. We first build the associated API tree. We then compare this to our dataset, to see if the API dataset has a subtree match. In the above example, the matching subtree is highlighted in brown, signifying that the API call is indeed correct. Pretrained=True is an optional argument.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 6,
+      "filename": "9hnja.pdf",
+      "category": "FigureCaption"
+    }
+  },
+  {
+    "pageContent": "4 Evaluation",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 6,
+      "filename": "9hnja.pdf",
+      "category": "Title"
+    }
+  },
+  {
+    "pageContent": "We carried out an array of experiments on our collected dataset, benchmarking our model Gorilla with other models, and exploring how different retrieval methods may impact the performance of the model in making API calls. We then demonstrate that Gorilla can easily adapt to test-time changes in API documentation. In addition, we assess Gorilla’s ability to reason about API calls under constraints. Lastly, we examined how integrating different retrieval methods during training influences the model’s final performance.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 6,
+      "parent_id": "1b2028c37fc22c7e099638be8b72ee99",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "Baselines Primarily, we compare Gorilla with state-of-the-art language models in a zero-shot setting. The models under consideration include: GPT-4 by OpenAI, we use the gpt-4-0314 checkpoint; GPT-3.5-turbo with the gpt-3.5-turbo-0301 checkpoint, both of which are RLHF-tuned model specifically designed for conversation; Claude with claude-v1 checkpoint, a language model by Anthropic, renowned for its lengthy context capabilities; LLaMA-7B, a large language model by Meta and the finest open-source model to date.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 6,
+      "parent_id": "1b2028c37fc22c7e099638be8b72ee99",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "Retrievers The term Zero-shot (abbreviated as 0-shot in tables) refers to scenarios where no retriever is used. The sole input to the model is the user’s natural language prompt. For BM25, we consider each API as a separate document. During retrieval, we use the user’s query to search the index and fetch the most relevant (top-1) API. This API is concatenated with the user’s prompt to query the LLMs. Similarly, GPT-Index refers to the retrieval model text-davinci-003 from OpenAI. Like BM25, each API call is indexed as an individual document, and the most relevant document, given a user query, is retrieved and appended to the user prompt. Lastly, we include an Oracle retriever, which serves two purposes: first, to identify the potential for performance improvement through more efficient retrievers, and second, to assist users who know which API to use but may need to help invoking it. In all cases, when a retriever is used, it is appended to the user’s prompt as follows: <user_prompt> Use this API documentation for reference: <retrieved_API_doc_JSON>. The dataset for these evaluations is detailed in Sec 3. We emphasize that we have maintained a holdout test set on which we report our findings. The holdout test set was created by dividing the self-instruct dataset’s instruction, API pairs into training and testing sets.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 6,
+      "parent_id": "1b2028c37fc22c7e099638be8b72ee99",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "4.1 AST Accuracy on API call",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 6,
+      "filename": "9hnja.pdf",
+      "category": "Title"
+    }
+  },
+  {
+    "pageContent": "We first demonstrate the results for the AST accuracy for different models. We present the results in Tab. 1. We test each model for different retriever settings defined above. We report the overall accuracy, the error by hallucination and the error by selecting wrong API call. Note that for TorchHub and TensorHub, we evaluate all the models using AST tree accuracy score. However, for HuggingFace,",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 6,
+      "parent_id": "cc187eb354dfdb33845a177b2ad8709a",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "6",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 6,
+      "filename": "9hnja.pdf",
+      "category": "Footer"
+    }
+  },
+  {
+    "pageContent": "Torch Hub with GPT-Retriever Tensorflow Hub with GPT-Retriever 100 o HuggingFace with GPT-Retriever o 80 &0 &0 60.21 5913 60.21 61.82 65.59 64.96 60 & 55.62 47.34 44.57 4937 47.45 43.94 a0 W Accuracy 20 LLAMA GPT-3.5 GPT-4 Claude Gorilla A1 LLAMA GPT-3.5 GPT-4 Claude Gorilla N 11 LLAMA GPT-3.5 GPT-4 Claude Gorilla A ] I Model Model Model",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 7,
+      "filename": "9hnja.pdf",
+      "category": "Image"
+    }
+  },
+  {
+    "pageContent": "Figure 5: Accuracy with GPT-retriever. Gorilla outperforms on Torch Hub and Hugging-Face while matching performance on Tensorflow Hub for all existing SoTA LLMs - closed source, and open source.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 7,
+      "filename": "9hnja.pdf",
+      "category": "FigureCaption"
+    }
+  },
+  {
+    "pageContent": "since the dataset is not exhaustive, for all the models except Gorilla, we only check if they can provide the correct domain names. So this problem reduces to picking one of the multiple choices.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 7,
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "Finetuning without Retrieval In Tab. 1 we show that lightly fine-tuned Gorilla gets the state-of- the-art performance zero-shot over all the models, 20.43% better than GPT-4 and 10.75% better than ChatGPT. When compared to other open-source models LLAMA, the improvement is as big as 83%. his suggests quantitatively, that finetuning is better than retrieval, at-least in our scope.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 7,
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "In addition, we found that finetuning without retriever and putting ground truth retriever in evaluation time rarely helps the performance: 0.88% worse in TensorHub and 0.97% better in HuggingFace. If we put BM25 or GPT-Index as retriever, results will be significantly dropped: 21.50% in Torch Hub and 47.57% in HuggingFace. The result illustrates that adding a non-optimal retriever at test time will sometime misguide the model and result in more errors. We will discuss an interesting ablation on how finetuning with the retriever will help the performance in the next paragraph.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 7,
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "Table 1: Evaluating LLMs on Torch Hub, HuggingFace, and Tensorflow Hub APIs",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 7,
+      "filename": "9hnja.pdf",
+      "category": "FigureCaption"
+    }
+  },
+  {
+    "pageContent": "LLM (retriever) overall ↑ TorchHub hallu ↓ err ↓ overall ↑ HuggingFace hallu ↓ err ↓ TensorFlow Hub overall ↑ hallu ↓ LLAMA (0-shot) GPT-3.5 (0-shot) GPT-4 (0-shot) Claude (0-shot) Gorilla (0-shot) 0 48.38 38.70 18.81 59.13 100 18.81 36.55 65.59 6.98 0 32.79 24.7 15.59 33.87 0.00 16.81 19.80 6.19 71.68 97.57 35.73 37.16 77.65 10.95 2.43 47.46 43.03 16.15 17.36 0 41.75 18.20 9.19 83.79 100 47.88 78.65 88.46 5.40 LLAMA (BM-25) GPT-3.5 (BM-25) GPT-4 (BM-25) Claude (BM-25) Gorilla (BM-25) 8.60 38.17 35.48 39.78 40.32 76.88 6.98 11.29 5.37 4.30 14.51 54.83 53.22 54.83 55.37 3.00 17.26 16.48 14.60 17.03 77.99 8.30 15.93 15.82 6.42 19.02 74.44 67.59 69.58 76.55 8.90 54.16 34.01 35.18 41.89 77.37 3.64 37.08 21.16 2.77 LLAMA (GPT-Index) GPT-3.5 (GPT-Index) GPT-4 (GPT-Index) Claude (GPT-Index) Gorilla (GPT-Index) 14.51 60.21 59.13 60.21 61.82 75.8 1.61 1.07 3.76 0 9.67 38.17 39.78 36.02 38.17 10.18 29.08 44.58 41.37 47.46 75.66 7.85 11.18 18.81 8.19 14.20 44.80 44.25 39.82 44.36 15.62 65.59 43.94 55.62 64.96 77.66 3.79 31.53 16.20 2.33 LLAMA (Oracle) GPT-3.5 (Oracle) GPT-4 (Oracle) Claude (Oracle) Gorilla (Oracle) 16.12 66.31 66.12 63.44 67.20 79.03 1.60 0.53 3.76 0 4.83 32.08 33.33 32.79 32.79 17.70 89.71 85.07 77.21 91.26 77.10 6.64 10.62 19.58 7.08 5.20 3.65 4.31 3.21 1.66 12.55 95.03 55.91 74.74 94.16 87.00 0.29 37.95 21.60 1.89 err ↓ 0 10.36 3.13 2.33 10.80 13.72 42.18 28.90 43.64 55.32 6.71 30.50 24.52 28.17 32.70 0.43 4.67 6.13 3.64 3.94",
+    "metadata": {
+      "text_as_html": "<table><thead><th>LLM (retriever)</th><th>overall</th><th>TorchHub hallu |</th><th>err |</th><th>overall 1</th><th>HuggingFace\n hallu |</th><th>err |</th><th>verall</th><th>TensorFlow Hub hallu |</th><th>err ↓\n |</th></thead><tr><td>LLAMA (0-shot)</td><td>0</td><td>100</td><td>0</td><td>0.00</td><td>97.57</td><td>243</td><td>0</td><td>100</td><td></td></tr><tr><td>GPT-3.5 (0-shot)</td><td>48.38</td><td>18.81</td><td>3279</td><td>16.81</td><td>35.73</td><td>47.46</td><td>41.75</td><td>47.88</td><td>10.36</td></tr><tr><td>GPT-4 (0-shot)</td><td>38.70</td><td>36.55</td><td>24.7</td><td>19.80</td><td>37.16</td><td>43.03</td><td>18.20</td><td>78.65</td><td>3.13</td></tr><tr><td>Claude (0-shot)</td><td>18.81</td><td>65.59</td><td>15.59</td><td>6.19</td><td>77.65</td><td>16.15</td><td>9.19</td><td>88.46</td><td>233</td></tr><tr><td>Gorilla (0-shot)</td><td>59.13</td><td>6.98</td><td>33.87</td><td>71.68</td><td>10.95</td><td>17.36</td><td>83.79</td><td>5.40</td><td>10.80</td></tr><tr><td>LLAMA (BM-25)</td><td>8.60</td><td>76.88</td><td>1451</td><td>3.00</td><td>77.99</td><td>19.02</td><td>8.90</td><td>7137</td><td>13.72</td></tr><tr><td>GPT-3.5 (BM-25)</td><td>38.17</td><td>6.98</td><td>54.83</td><td>17.26</td><td>8.30</td><td>74.44</td><td>54.16</td><td>3.64</td><td>4218</td></tr><tr><td>GPT-4 (BM-25)</td><td>35.48</td><td>11.29</td><td>53.22</td><td>16.48</td><td>15.93</td><td>67.59</td><td>34.01</td><td>37.08</td><td>28.90</td></tr><tr><td>Claude (BM-25)</td><td>39.78</td><td>537</td><td>54.83</td><td>14.60</td><td>15.82</td><td>69.58</td><td>35.18</td><td>21.16</td><td>43.64</td></tr><tr><td>Gorilla (BM-25)</td><td>40.32</td><td>4.30</td><td>55.37</td><td>17.03</td><td>6.42</td><td>76.55</td><td>41.89</td><td>2.71</td><td>55.32</td></tr><tr><td>LLAMA (GPT-Index)</td><td>1451</td><td>75.8</td><td>9.67</td><td>10.18</td><td>75.66</td><td>14.20</td><td>15.62</td><td>77.66</td><td>6.71</td></tr><tr><td>GPT-3.5 (GPT-Index)</td><td>60.21</td><td>1.61</td><td>38.17</td><td>29.08</td><td>7.85</td><td>44.80</td><td>65.59</td><td>3.79</td><td>30.50</td></tr><tr><td>GPT-4 (GPT-Index)</td><td>59.13</td><td>1.07</td><td>39.78</td><td>44.58</td><td>11.18</td><td>44.25</td><td>43.94</td><td>31.53</td><td>24.52</td></tr><tr><td>Claude (GPT-Index)</td><td>60.21</td><td>3.76</td><td>36.02</td><td>41.37</td><td>18.81</td><td>39.82</td><td>55.62</td><td>16.20</td><td>28.17</td></tr><tr><td>Gorilla (GPT-Index)</td><td>61.82</td><td>0</td><td>38.17</td><td>47.46</td><td>8.19</td><td>44.36</td><td>64.96</td><td>233</td><td>32.70</td></tr><tr><td>LLAMA (Oracle)</td><td>16.12</td><td>79.03</td><td>4.83</td><td>17.70</td><td>77.10</td><td>5.20</td><td>12.55</td><td>87.00</td><td>043</td></tr><tr><td>GPT-3.5 (Oracle)</td><td>66.31</td><td>1.60</td><td>32.08</td><td>89.71</td><td>6.64</td><td>3.65</td><td>95.03</td><td>0.29</td><td>4.67</td></tr><tr><td>GPT-4 (Oracle)</td><td>66.12</td><td>0.53</td><td>33.33</td><td>85.07</td><td>10.62</td><td>431</td><td>5591</td><td>37.95</td><td>6.13</td></tr><tr><td>Claude (Oracle)</td><td>63.44</td><td>3.76</td><td>3279</td><td>7721</td><td>19.58</td><td>321</td><td>74.74</td><td>21.60</td><td>3.64</td></tr><tr><td>Gorilla (Oracle)</td><td>67.20</td><td>0</td><td>3279</td><td>91.26</td><td>7.08</td><td>1.66</td><td>94.16</td><td>1.89</td><td>3.94</td></tr></table>",
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 7,
+      "filename": "9hnja.pdf",
+      "category": "Table"
+    }
+  },
+  {
+    "pageContent": "Finetuning with Retrieval We now discuss an interesting experiment on how finetuning language with retriever incorporated is helping the performance. The settings for this experiment are finetuning the base LLAMA with the prompt (instruction generated), reference API document (from golden- truth oracle), and the example output generated by GPT-4. In Tab. 2, we can see that incorporating ground truth retriever in the finetuning pipeline achieves significantly better results 12.37% better than training without retriever in Torch Hub and 23.46% better in HuggingFace. However, we found that at evaluation time, current retrievers still have a big gap between the ground truth retriever: using GPT-Index at evaluation results in 29.20% accuracy degradation, and using BM25 results in a 52.27% accuracy degradation. Nevertheless, we can still conclude that with a better retriever, finetuning",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 7,
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "7",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 7,
+      "filename": "9hnja.pdf",
+      "category": "Footer"
+    }
+  },
+  {
+    "pageContent": "Default Response Update the model Update the model repository USER: | want to automatically remove USER: | want to automatically remove USER: | want to automatically remove the the background from an input image. the background from an input image background from an input image. <Retrieval <Retrieval: fen_resnet50..> <Retrieval: . fen_resnet101..> NVIDIA/DeepLearningExamples:torchhub..> GORILLA: GORILLA: GORILLA: api_call api_call api_call: “torch.hub load('pytorch/vision’, “torch.hub.load(pytorch/vision’, “torch.hub.load('NVIDIA / ‘fen_resnet50', pretrained=True) o ‘fen_resnet101\", pretrained=True)’ @ DeeplearningExamples:torchhub ', 'fen_resnetS0)', pretrained=True)\"",
+    "metadata": {
+      "text_as_html": "<table><thead><th>Default Response</th><th>Update the model</th><th>Update the model repository</th></thead><tr><td>USER: | want to automatically remove the background from an input image. &lt;Retrieval: fen_resnet50..&gt;</td><td>USER: | want to automatically remove the background from an input image &lt;Retrieval fen_resnet101..&gt;</td><td>USER: | want to automatically remove the background from an input image. &lt;Retrieval NVIDIA/DeepLearningExamples:torchhub..&gt;</td></tr><tr><td>GORILLA: api_call “torch.hub load('pytorch/vision’, ‘fen_resnet50', pretrained=True)\"</td><td>GORILLA: api_call “torch.hub.load('pytorch/vision ‘fen_resnet101', pretrained=True)\"</td><td>GORILLA: api_call: “torch.hub.load('NVIDIA / DeeplearningExamples:torchhub ', 'fen_resnetS0)', pretrained=True)”</td></tr></table>",
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 8,
+      "filename": "9hnja.pdf",
+      "category": "Table"
+    }
+  },
+  {
+    "pageContent": "Figure 6: Gorilla’s retriever–aware training enables it to react to changes in the APIs. The second column demonstrates changes in model upgrading FCN’s ResNet–50 backbone to ResNet–101. The third column demon- strate changes in model registry from pytorch/vision to NVIDIA/DeepLearningExamples:torchhub",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 8,
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "with retriever is still a better method to adopt while in another scenario, when a good retriever is not available, zero-shot finetuning might be the preferred choice.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 8,
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "Table 2: Comparison of retrieval techniques",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 8,
+      "filename": "9hnja.pdf",
+      "category": "Title"
+    }
+  },
+  {
+    "pageContent": "Gorilla without Retriever Gorilla with Oracle retriever zero-shot BM25 GPT-Index Oracle zero-shot BM25 GPT-Index Torch Hub (overall) ↑ HuggingFace (overall) ↑ TensorHub (overall) ↑ 59.13 71.68 83.79 37.63 11.28 34.30 60.21 28.10 52.40 54.83 45.58 82.91 0 0 0 40.32 17.04 41.89 61.82 47.46 64.96 Torch Hub (Hallu) ↓ HuggingFace (Hallu) ↓ TensorHub (Hallu) ↓ 6.98 10.95 5.40 11.29 46.46 20.43 4.30 41.48 19.70 15.59 52.77 13.28 100 99.67 100 4.30 6.42 2.77 0 8.19 2.33 Oracle 67.20 91.26 94.16 0 7.08 1.89",
+    "metadata": {
+      "text_as_html": "<table><thead><th></th><th colspan=\"4\">Gorilla without Retriever</th><th colspan=\"4\">Gorilla with Oracle retriever</th></thead><thead><th></th><th>zero-shot</th><th>BM25</th><th>GPT-Index</th><th>Oracle</th><th>| zero-shot</th><th>BM25</th><th>GPT-Index</th><th>Oracle</th></thead><tr><td>Torch Hub (overall)</td><td>59.13</td><td>37.63</td><td>60.21</td><td>54.83</td><td></td><td>40.32</td><td>61.82</td><td>67.20</td></tr><tr><td>HuggingFace (overall)</td><td>71.68</td><td>11.28</td><td>28.10</td><td>4558</td><td></td><td>17.04</td><td>47.46</td><td>91.26</td></tr><tr><td>TensorHub (overall)</td><td>83.79</td><td>34.30</td><td>52.40</td><td>82.91</td><td>0\n0\n0</td><td>41.89</td><td>64.96</td><td>94.16</td></tr><tr><td>Torch Hub (Hallu) |,</td><td>6.98</td><td>11.29</td><td>4.30</td><td>15.59</td><td>100</td><td>430</td><td>0</td><td></td></tr><tr><td>Hug; ngFace (Hallu) |</td><td>10.95</td><td>46.46</td><td>41.48</td><td>5277</td><td>99.67</td><td>6.42</td><td>8.19</td><td></td></tr><tr><td>TensorHub (Hallu) |</td><td>5.40</td><td>20.43</td><td>19.70</td><td>13.28</td><td>100</td><td>2.77</td><td>2.</td><td>1.89</td></tr></table>",
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 8,
+      "parent_id": "d43f635b7db64f28eabd1e3e993905dc",
+      "filename": "9hnja.pdf",
+      "category": "Table"
+    }
+  },
+  {
+    "pageContent": "Hallucination with LLM One phenomenon we observe is that zero-shot prompting with LLMs (GPT-4/GPT-3.5) to call APIs results in dire hallucination errors. These errors, while diverse, commonly manifest in erroneous behavior such as the model invoking the \"Auto- Model.from_pretrained(dir_name)\" command with arbitrary GitHub repository names. Surprisingly, we also found that in TorchHub, HuggingFace and TensorFlow Hub, GPT-3.5 has less hallucination errors than GPT-4. This finding is also consistent for the settings when various retrieving methods are provided: 0-shot, BM25, GPT-Index and the oracle. This might suggest that RLHF plays a central role in turning the model to be truthful. Additional examples and discussion are in Appendix.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 8,
+      "parent_id": "d43f635b7db64f28eabd1e3e993905dc",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "The rapidly evolving nature of API documentation presents a significant challenge for the application of LLMs in this field. These documents are often updated at a frequency that outpaces the re- training or fine-tuning schedule of LLMs, making these models particularly brittle to changes in the information they are designed to process. This mismatch in update frequency can lead to a decline in the utility and reliability of LLMs over time.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 8,
+      "parent_id": "d43f635b7db64f28eabd1e3e993905dc",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "However, with the introduction of Gorilla’s retriever-aware training, we can readily adapt to changes in API documentation. This novel approach allows the model to remain updated and relevant, even as the API documentation it relies on undergoes modifications. This is a pivotal advancement in the field, as it ensures that the LLM maintains its efficacy and accuracy over time, providing reliable outputs irrespective of changes in the underlying documentation.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 8,
+      "parent_id": "d43f635b7db64f28eabd1e3e993905dc",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "For instance, consider the scenario illustrated in Figure 6, where the training of Gorilla has al- lowed it to react effectively to changes in APIs. This includes alterations such as upgrading the FCN’s ResNet-50 backbone to ResNet-101, as demonstrated in the second column of the figure. This capability ensures that the LLM remains relevant and accurate even as the under- lying models and systems undergo upgrades and improvements. Furthermore, the third column in Figure 6 shows how Gorilla adapts to changes in the model registry from pytorch/vision to NVIDIA/DeepLearningExamples:torchhub. This reflects the model’s ability to adjust to shifts in API sources, which is vital as organizations may change their preferred model registries over time.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 8,
+      "parent_id": "d43f635b7db64f28eabd1e3e993905dc",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "In summary, Gorilla’s ability to adapt to test-time changes in API documentation offers numerous benefits. It maintains its accuracy and relevance over time, adapts to the rapid pace of updates in",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 8,
+      "parent_id": "d43f635b7db64f28eabd1e3e993905dc",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "4.2 Test-Time Documentation Change",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 8,
+      "filename": "9hnja.pdf",
+      "category": "Title"
+    }
+  },
+  {
+    "pageContent": "8",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 8,
+      "filename": "9hnja.pdf",
+      "category": "Footer"
+    }
+  },
+  {
+    "pageContent": "API documentation, and adjusts to modifications in underlying models and systems. This makes it a robust and reliable tool for API calls, significantly enhancing its practical utility.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 9,
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "4.3 API Call with Constraints",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 9,
+      "filename": "9hnja.pdf",
+      "category": "Title"
+    }
+  },
+  {
+    "pageContent": "We now focus on the language model’s capability of understanding constraints. For any given task, which API call to invoke is typically a tradeoff between a multitude of factors. In the case of RESTFul APIs, it could be the cost of each invocation ($), and the latency of response (ms), among others. Similarly, within the scope of ML APIs, it is desirable for Gorilla to respect constraints such as accuracy, number of learnable parameters in the model, the size on disk, peak memory consumption, FLOPS, etc. We present the underlying ablation study evaluating the ability of different models in zero-shot and with retrievers settings to respect a given accuracy constraint. This setting is best understood with an example. If the user were to ask for an Image classification model that achieves at least 80% top-1 accuracy on the Imagenet dataset, then while both are classification models hosted by Torch Hub, ResNeXt-101 32x16d with a top-1 accuracy of 84.2% would be the right model whose API to call and not, say, MobileNetV2 which has a top-1 accuracy of 71.88%.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 9,
+      "parent_id": "47bdf0f4a42baa2fc28d16e8a39bea7c",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "Table 3: Evaluating LLMs on constraint-aware API invocations",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 9,
+      "parent_id": "47bdf0f4a42baa2fc28d16e8a39bea7c",
+      "filename": "9hnja.pdf",
+      "category": "FigureCaption"
+    }
+  },
+  {
+    "pageContent": "GPT-3.5 GPT-4 Gorilla 0-shot BM25 GPT-Index Oracle 0-shot BM25 GPT-Index Oracle 0-shot BM25 GPT-Index Oracle Torch Hub (overall) Torch Hub (Hallu) Torch Hub (err) 73.94 19.01 7.04 62.67 30.98 6.33 81.69 14.78 3.52 80.98 14.08 4.92 62.67 15.49 21.83 56.33 27.46 16.19 71.11 14.08 14.78 69.01 9.15 21.83 71.83 19.71 8.45 57.04 39.43 3.52 71.83 26.05 2.11 78.16 16.90 4.92 Accuracy const 43.66 33.80 33.09 69.01 43.66 29.57 29.57 59.15 47.88 30.28 26.76 67.60 LLAMA Claude 0-shot BM25 GPT-Index Oracle 0-shot BM25 GPT-Index Oracle Torch Hub (overall) Torch Hub (Hallu) Torch Hub (err) 0 100 0 8.45 91.54 0 11.97 88.02 0 19.71 78.87 1.4 29.92 67.25 2.81 81.69 16.19 2.11 82.39 15.49 2.11 81.69 13.38 4.92 Accuracy const 0 6.33 3.52 17.60 17.25 29.57 31.69 69.71",
+    "metadata": {
+      "text_as_html": "<table><thead><th></th><th colspan=\"4\">GPT-3.5</th><th colspan=\"4\">GPT-4</th><th colspan=\"4\">Gorilla</th></thead><thead><th></th><th>0-shot</th><th>BM25</th><th>GPT-Index</th><th>Oracle</th><th>0-shot</th><th>BM25</th><th>GPT-Index</th><th>Oracle</th><th>0-shot</th><th>BM25</th><th>GPT-Index</th><th>Oracle</th></thead><tr><td>Torch Hub (overall)</td><td>73.94</td><td>62.67</td><td>81.69</td><td>80.98</td><td>62.67</td><td>56.33</td><td>71.11</td><td>69.01</td><td>71.83</td><td>57.04</td><td>71.83</td><td>78.16</td></tr><tr><td>Torch Hub (Hallu)</td><td>19.01</td><td>30.98</td><td>14.78</td><td>14.08</td><td>1549</td><td>27.46</td><td>14.08</td><td>9.15</td><td>19.71</td><td>39.43</td><td>26.05</td><td>16.90</td></tr><tr><td>Torch Hub (err)</td><td>7.04</td><td>6.33</td><td>3.52</td><td>4.92</td><td>21.83</td><td>16.19</td><td>14.78</td><td>21.83</td><td>8.45</td><td>3.52</td><td>2.11</td><td>4.92</td></tr><tr><td>Accuracy const</td><td>43.66</td><td>33.80</td><td>33.09</td><td>69.01</td><td>43.66</td><td>29.57</td><td>29.57</td><td>59.15</td><td>47.88</td><td>30.28</td><td>26.76</td><td>67.60</td></tr><tr><td></td><td></td><td></td><td>LLAMA</td><td></td><td></td><td></td><td>Claude</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td>0-shot</td><td>BM25</td><td>GPT-Index</td><td>Oracle</td><td>0-shot</td><td>BM25</td><td>GPT-Index</td><td>Oracle</td><td></td><td></td><td></td><td></td></tr><tr><td>Torch Hub (overall)</td><td>0</td><td>8.45</td><td>11.97</td><td>19.71</td><td>29.92</td><td>81.69</td><td>82.39</td><td>81.69</td><td></td><td></td><td></td><td></td></tr><tr><td>Torch Hub (Hallu)</td><td>100</td><td>91.54</td><td>88.02</td><td>78.87</td><td>67.25</td><td>16.19</td><td>15.49</td><td>13.38</td><td></td><td></td><td></td><td></td></tr><tr><td>Torch Hub (err)</td><td>0</td><td>0</td><td>0</td><td>1.4</td><td>2.81</td><td>2.11</td><td>2.11</td><td>4.92</td><td></td><td></td><td></td><td></td></tr><tr><td>Accuracy const</td><td>0</td><td>6.33</td><td>3.52</td><td>17.60</td><td>17.25</td><td>29.57</td><td>31.69</td><td>69.71</td><td></td><td></td><td></td><td></td></tr></table>",
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 9,
+      "parent_id": "47bdf0f4a42baa2fc28d16e8a39bea7c",
+      "filename": "9hnja.pdf",
+      "category": "Table"
+    }
+  },
+  {
+    "pageContent": "For Table 3, we filtered a subset of the Torch Hub dataset that had accuracy defined for at least one- dataset in its model card (65.26% of TorchHub dataset in Table 1). We notice that with constraints, understandably, the accuracy drops across all models, with and without a retriever. Gorilla is able to match performance with the best-performing model GPT-3.5 when using retrievals (BM25, GPT- Index) and has the highest accuracy in the Zero-shot case. This highlights Gorilla’s ability to navigate APIs while considering the trade-offs between different constraints.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 9,
+      "parent_id": "47bdf0f4a42baa2fc28d16e8a39bea7c",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "LLMs are swiftly gaining popularity across diverse domains. In our study, we spotlight techniques designed to enhance the LLM’s ability to accurately identify the appropriate API for a specific task—a significant but often overlooked aspect in the advancement of this technology. Since APIs function as a universal language enabling diverse systems to communicate effectively, their correct usage can boost the ability of LLMs to interact with tools in the wider world. In this paper, we propose Gorilla, a new novel pipeline for finetuning LLMs to call APIs. The finetuned model’s performance surpasses prompting the state-of-the-art LLM (GPT-4) in three massive datasets we collected. Gorilla generates reliable API calls to ML models without hallucination, demonstrates an impressive capability to adapt to test-time API usage changes, and can satisfy constraints while picking APIs.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 9,
+      "parent_id": "47bdf0f4a42baa2fc28d16e8a39bea7c",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "6 Limitations & Social Impacts",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 9,
+      "filename": "9hnja.pdf",
+      "category": "Title"
+    }
+  },
+  {
+    "pageContent": "With the goal of wanting to have a challenging dataset, we chose ML APIs, given their functional similarity. The potential downside to APIs that focus on the ML domain, is their propensity to produce biased predictions if trained on skewed data, potentially disadvantaging certain sub-groups. To counter this concern and foster a deeper understanding of these APIs, we are releasing our extensive dataset, consisting of over 11,000 instruction-API pairs. This resource will serve the wider community as a valuable tool for studying and benchmarking existing APIs, contributing to a more fair and optimized usage of machine learning.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 9,
+      "parent_id": "1707e133a9439209c361396ad9a76b97",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "5 Conclusion",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 9,
+      "filename": "9hnja.pdf",
+      "category": "Title"
+    }
+  },
+  {
+    "pageContent": "9",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 9,
+      "filename": "9hnja.pdf",
+      "category": "Footer"
+    }
+  },
+  {
+    "pageContent": "7 Acknowledgement",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 10,
+      "filename": "9hnja.pdf",
+      "category": "Title"
+    }
+  },
+  {
+    "pageContent": "This research is supported in part by gifts to UC Berkley Sky Computing Lab from Astronomer, Google, IBM, Intel, Lacework, Microsoft, Nexla, Samsung SDS, Uber, and VMware.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 10,
+      "parent_id": "de5987c957b8d171590c20df0429b4b5",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "References",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 10,
+      "filename": "9hnja.pdf",
+      "category": "Title"
+    }
+  },
+  {
+    "pageContent": "[1] Ahn, M., Brohan, A., Brown, N., Chebotar, Y., Cortes, O., David, B., Finn, C., Gopalakrishnan, K., Hausman, K., Herzog, A., et al. (2022). Do as i can, not as i say: Grounding language in robotic affordances. arXiv preprint arXiv:2204.01691.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 10,
+      "parent_id": "a0d7deccf89e42d02a9d66b0c1889689",
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[2] Andor, D., He, L., Lee, K., and Pitler, E. (2019). Giving bert a calculator: Finding operations and arguments with reading comprehension. arXiv preprint arXiv:1909.00109.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 10,
+      "parent_id": "a0d7deccf89e42d02a9d66b0c1889689",
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[3] Anthropic, h.-c. (2022). Claude.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 10,
+      "parent_id": "a0d7deccf89e42d02a9d66b0c1889689",
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[4] Bavishi, R., Lemieux, C., Fox, R., Sen, K., and Stoica, I. (2019). Autopandas: neural- backed generators for program synthesis. Proceedings of the ACM on Programming Languages, 3(OOPSLA):1–27.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 10,
+      "parent_id": "a0d7deccf89e42d02a9d66b0c1889689",
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[5] Brown, T., Mann, B., Ryder, N., Subbiah, M., Kaplan, J. D., Dhariwal, P., Neelakantan, A., Shyam, P., Sastry, G., Askell, A., et al. (2020). Language models are few-shot learners. Advances in neural information processing systems, 33:1877–1901.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 10,
+      "parent_id": "a0d7deccf89e42d02a9d66b0c1889689",
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[6] Bubeck, S., Chandrasekaran, V., Eldan, R., Gehrke, J., Horvitz, E., Kamar, E., Lee, P., Lee, Y. T., Li, Y., Lundberg, S., et al. (2023). Sparks of artificial general intelligence: Early experiments with gpt-4. arXiv preprint arXiv:2303.12712.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 10,
+      "parent_id": "a0d7deccf89e42d02a9d66b0c1889689",
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[7] Chen, M., Tworek, J., Jun, H., Yuan, Q., Pinto, H. P. d. O., Kaplan, J., Edwards, H., Burda, Y., Joseph, N., Brockman, G., et al. (2021). Evaluating large language models trained on code. arXiv preprint arXiv:2107.03374.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 10,
+      "parent_id": "a0d7deccf89e42d02a9d66b0c1889689",
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[8] Chen, X., Lin, M., Schärli, N., and Zhou, D. (2023). Teaching large language models to self-debug. arXiv preprint arXiv:2304.05128.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 10,
+      "parent_id": "a0d7deccf89e42d02a9d66b0c1889689",
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[9] Chiang, W.-L., Li, Z., Lin, Z., Sheng, Y., Wu, Z., Zhang, H., Zheng, L., Zhuang, S., Zhuang, Y., Gonzalez, J. E., Stoica, I., and Xing, E. P. (2023). Vicuna: An open-source chatbot impressing gpt-4 with 90%* chatgpt quality.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 10,
+      "parent_id": "a0d7deccf89e42d02a9d66b0c1889689",
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[10] Chowdhery, A., Narang, S., Devlin, J., Bosma, M., Mishra, G., Roberts, A., Barham, P., Chung, H. W., Sutton, C., Gehrmann, S., et al. (2022). Palm: Scaling language modeling with pathways. arXiv preprint arXiv:2204.02311.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 10,
+      "parent_id": "a0d7deccf89e42d02a9d66b0c1889689",
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[11] Chung, H. W., Hou, L., Longpre, S., Zoph, B., Tay, Y., Fedus, W., Li, E., Wang, X., Dehghani, M., Brahma, S., et al. (2022). Scaling instruction-finetuned language models. arXiv preprint arXiv:2210.11416.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 10,
+      "parent_id": "a0d7deccf89e42d02a9d66b0c1889689",
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[12] Cobbe, K., Kosaraju, V., Bavarian, M., Chen, M., Jun, H., Kaiser, L., Plappert, M., Tworek, J., Hilton, J., Nakano, R., et al. (2021). Training verifiers to solve math word problems. arXiv preprint arXiv:2110.14168.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 10,
+      "parent_id": "a0d7deccf89e42d02a9d66b0c1889689",
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[13] Devlin, J., Uesato, J., Bhupatiraju, S., Singh, R., Mohamed, A.-r., and Kohli, P. (2017). Robust- fill: Neural program learning under noisy i/o. In International conference on machine learning, pages 990–998. PMLR.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 10,
+      "parent_id": "a0d7deccf89e42d02a9d66b0c1889689",
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[14] Gao, L., Madaan, A., Zhou, S., Alon, U., Liu, P., Yang, Y., Callan, J., and Neubig, G. (2022). Pal: Program-aided language models. arXiv preprint arXiv:2211.10435.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 10,
+      "parent_id": "a0d7deccf89e42d02a9d66b0c1889689",
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[15] Iyer, S., Lin, X. V., Pasunuru, R., Mihaylov, T., Simig, D., Yu, P., Shuster, K., Wang, T., Liu, Q., Koura, P. S., et al. (2022). Opt-iml: Scaling language model instruction meta learning through the lens of generalization. arXiv preprint arXiv:2212.12017.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 10,
+      "parent_id": "a0d7deccf89e42d02a9d66b0c1889689",
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "10",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 10,
+      "filename": "9hnja.pdf",
+      "category": "Footer"
+    }
+  },
+  {
+    "pageContent": "[16] Jain, N., Vaidyanath, S., Iyer, A., Natarajan, N., Parthasarathy, S., Rajamani, S., and Sharma, R. (2022). Jigsaw: Large language models meet program synthesis. In Proceedings of the 44th International Conference on Software Engineering, pages 1219–1231.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 11,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[17] Kim, G., Baldi, P., and McAleer, S. (2023). Language models can solve computer tasks. arXiv preprint arXiv:2303.17491.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 11,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[18] Kojima, T., Gu, S. S., Reid, M., Matsuo, Y., and Iwasawa, Y. (2022). Large language models are zero-shot reasoners. arXiv preprint arXiv:2205.11916.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 11,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[19] Komeili, M., Shuster, K., and Weston, J. (2021). Internet-augmented dialogue generation. arXiv preprint arXiv:2107.07566.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 11,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[20] Lachaux, M.-A., Roziere, B., Chanussot, L., and Lample, G. (2020). Unsupervised translation of programming languages. arXiv preprint arXiv:2006.03511.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 11,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[21] Lazaridou, A., Gribovskaya, E., Stokowiec, W., and Grigorev, N. (2022). Internet-augmented language models through few-shot prompting for open-domain question answering. arXiv preprint arXiv:2203.05115.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 11,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[22] Li, R., Allal, L. B., Zi, Y., Muennighoff, N., Kocetkov, D., Mou, C., Marone, M., Akiki, C., Li, J., Chim, J., et al. (2023). Starcoder: may the source be with you! arXiv preprint arXiv:2305.06161.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 11,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[23] Li, Y., Choi, D., Chung, J., Kushman, N., Schrittwieser, J., Leblond, R., Eccles, T., Keeling, J., Gimeno, F., Dal Lago, A., et al. (2022). Competition-level code generation with alphacode. Science, 378(6624):1092–1097.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 11,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[24] Liang, Y., Wu, C., Song, T., Wu, W., Xia, Y., Liu, Y., Ou, Y., Lu, S., Ji, L., Mao, S., et al. (2023). Taskmatrix. ai: Completing tasks by connecting foundation models with millions of apis. arXiv preprint arXiv:2303.16434.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 11,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[25] Menon, A., Tamuz, O., Gulwani, S., Lampson, B., and Kalai, A. (2013). A machine learning framework for programming by example. In International Conference on Machine Learning, pages 187–195. PMLR.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 11,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[26] Nakano, R., Hilton, J., Balaji, S., Wu, J., Ouyang, L., Kim, C., Hesse, C., Jain, S., Kosaraju, V., Saunders, W., et al. (2021). Webgpt: Browser-assisted question-answering with human feedback. arXiv preprint arXiv:2112.09332.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 11,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[27] Nijkamp, E., Hayashi, H., Xiong, C., Savarese, S., and Zhou, Y. (2023). Codegen2: Lessons for training llms on programming and natural languages. arXiv preprint arXiv:2305.02309.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 11,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[28] Nijkamp, E., Pang, B., Hayashi, H., Tu, L., Wang, H., Zhou, Y., Savarese, S., and Xiong, C. (2022). Codegen: An open large language model for code with multi-turn program synthesis. arXiv preprint arXiv:2203.13474.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 11,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[29] OpenAI (2023). Gpt-4 technical report.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 11,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[31] Sanh, V., Webson, A., Raffel, C., Bach, S. H., Sutawika, L., Alyafeai, Z., Chaffin, A., Stiegler, A., Scao, T. L., Raja, A., et al. (2021). Multitask prompted training enables zero-shot task generalization. arXiv preprint arXiv:2110.08207.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 11,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[32] Scao, T. L., Fan, A., Akiki, C., Pavlick, E., Ili´c, S., Hesslow, D., Castagné, R., Luccioni, A. S., Yvon, F., Gallé, M., et al. (2022). Bloom: A 176b-parameter open-access multilingual language model. arXiv preprint arXiv:2211.05100.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 11,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[33] Schick, T., Dwivedi-Yu, J., Dessì, R., Raileanu, R., Lomeli, M., Zettlemoyer, L., Cancedda, N., and Scialom, T. (2023). Toolformer: Language models can teach themselves to use tools. arXiv preprint arXiv:2302.04761.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 11,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[34] Schick, T. and Schütze, H. (2020). Exploiting cloze questions for few shot text classification and natural language inference. arXiv preprint arXiv:2001.07676.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 11,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[30] OpenAI and https://openai.com/blog/chatgpt (2022). Chatgpt.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 11,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "11",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 11,
+      "filename": "9hnja.pdf",
+      "category": "Footer"
+    }
+  },
+  {
+    "pageContent": "[35] Shen, Y., Song, K., Tan, X., Li, D., Lu, W., and Zhuang, Y. (2023). Hugginggpt: Solving ai tasks with chatgpt and its friends in huggingface. arXiv preprint arXiv:2303.17580.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 12,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[36] Shinn, N., Labash, B., and Gopinath, A. (2023). Reflexion: an autonomous agent with dynamic memory and self-reflection. arXiv preprint arXiv:2303.11366.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 12,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[37] Shuster, K., Xu, J., Komeili, M., Ju, D., Smith, E. M., Roller, S., Ung, M., Chen, M., Arora, K., Lane, J., et al. (2022). Blenderbot 3: a deployed conversational agent that continually learns to responsibly engage. arXiv preprint arXiv:2208.03188.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 12,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[38] Taori, R., Gulrajani, I., Zhang, T., Dubois, Y., Li, X., Guestrin, C., Liang, P., and Hashimoto, T. B. (2023). Stanford alpaca: An instruction-following llama model. https://github.com/ tatsu-lab/stanford_alpaca.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 12,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[39] Thoppilan, R., De Freitas, D., Hall, J., Shazeer, N., Kulshreshtha, A., Cheng, H.-T., Jin, A., Bos, T., Baker, L., Du, Y., et al. (2022). Lamda: Language models for dialog applications. arXiv preprint arXiv:2201.08239.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 12,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[40] Touvron, H., Lavril, T., Izacard, G., Martinet, X., Lachaux, M.-A., Lacroix, T., Rozière, B., Goyal, N., Hambro, E., Azhar, F., et al. (2023). Llama: Open and efficient foundation language models. arXiv preprint arXiv:2302.13971.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 12,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[41] Vemprala, S., Bonatti, R., Bucker, A., and Kapoor, A. (2023). Chatgpt for robotics: Design principles and model abilities. 2023.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 12,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[42] Wang, Y., Kordi, Y., Mishra, S., Liu, A., Smith, N. A., Khashabi, D., and Hajishirzi, H. (2022a). Self-instruct: Aligning language model with self generated instructions. arXiv preprint arXiv:2212.10560.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 12,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[43] Wang, Y., Mishra, S., Alipoormolabashi, P., Kordi, Y., Mirzaei, A., Naik, A., Ashok, A., Dhanasekaran, A. S., Arunkumar, A., Stap, D., et al. (2022b). Super-naturalinstructions: General- ization via declarative instructions on 1600+ nlp tasks. In Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing, pages 5085–5109.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 12,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[44] Wei, J., Wang, X., Schuurmans, D., Bosma, M., Chi, E., Le, Q., and Zhou, D. (2022). Chain of thought prompting elicits reasoning in large language models. arXiv preprint arXiv:2201.11903.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 12,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[45] Xu, F. F., Alon, U., Neubig, G., and Hellendoorn, V. J. (2022). A systematic evaluation of large language models of code. In Proceedings of the 6th ACM SIGPLAN International Symposium on Machine Programming, pages 1–10.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 12,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[46] Yao, S., Zhao, J., Yu, D., Du, N., Shafran, I., Narasimhan, K., and Cao, Y. (2022). React: Synergizing reasoning and acting in language models. arXiv preprint arXiv:2210.03629.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 12,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[47] Zeng, A., Liu, X., Du, Z., Wang, Z., Lai, H., Ding, M., Yang, Z., Xu, Y., Zheng, W., Xia, X., et al. (2022). Glm-130b: An open bilingual pre-trained model. arXiv preprint arXiv:2210.02414.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 12,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "[48] Zhang, S., Roller, S., Goyal, N., Artetxe, M., Chen, M., Chen, S., Dewan, C., Diab, M., Li, X., Lin, X. V., et al. (2022). Opt: Open pre-trained transformer language models. arXiv preprint arXiv:2205.01068.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 12,
+      "filename": "9hnja.pdf",
+      "category": "ListItem"
+    }
+  },
+  {
+    "pageContent": "12",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 12,
+      "filename": "9hnja.pdf",
+      "category": "Footer"
+    }
+  },
+  {
+    "pageContent": "8 Appendix",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 13,
+      "filename": "9hnja.pdf",
+      "category": "Title"
+    }
+  },
+  {
+    "pageContent": "8.1 Dataset Details",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 13,
+      "filename": "9hnja.pdf",
+      "category": "Title"
+    }
+  },
+  {
+    "pageContent": "Our dataset is multi-faceted, comprising three distinct domains: Torch Hub, Tensor Hub, and HuggingFace. Each entry within this dataset is rich in detail, carrying critical pieces of information that further illuminate the nature of the data. Delving deeper into the specifics of each domain, Torch Hub provides 95 APIs. The second domain, Tensor Hub, is more expansive with a total of 696 APIs. Finally, the most extensive of them all, HuggingFace, comprises 925 APIs.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 13,
+      "parent_id": "314225331c8e67cfcfa041cbaada4161",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "To enhance the value and utility of our dataset, we’ve undertaken an additional initiative. With each API, we have generated a set of 10 unique instructions. These instructions, carefully crafted and meticulously tailored, serve as a guide for both training and evaluation. This initiative ensures that every API is not just represented in our dataset, but is also comprehensively understood and effectively utilizable.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 13,
+      "parent_id": "314225331c8e67cfcfa041cbaada4161",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "In essence, our dataset is more than just a collection of APIs across three domains. It is a compre- hensive resource, carefully structured and enriched with added layers of guidance and evaluation parameters.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 13,
+      "parent_id": "314225331c8e67cfcfa041cbaada4161",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "Domain Classification The unique domain names encompassed within our dataset are illustrated in Figure 7. The dataset consists of three sources with a diverse range of domains: Torch Hub houses 6 domains, Tensor Hub accommodates a much broader selection with 57 domains, while HuggingFace incorporates 37 domains. To exemplify the structure and nature of our dataset, we invite you to refer to the domain names represented in Figure 8.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 13,
+      "parent_id": "314225331c8e67cfcfa041cbaada4161",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "API Call Task In this task, we test the model’s capability to generate a single line of code, either in a zero-shot fashion or by leveraging an API reference. Primarily designed for evaluation purposes, this task effectively gauges the model’s proficiency in identifying and utilizing the appropriate API call.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 13,
+      "parent_id": "314225331c8e67cfcfa041cbaada4161",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "API Provider Component This facet relates to the provision of the programming language. In this context, the API provider plays a vital role as it serves as a foundation upon which APIs are built and executed.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 13,
+      "parent_id": "314225331c8e67cfcfa041cbaada4161",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "Explanation Element This component offers valuable insights into the rationale behind the usage of a particular API, detailing how it aligns with the prescribed requirements. Furthermore, when certain constraints are imposed, this segment also incorporates those limitations. Thus, the explanation element serves a dual purpose, offering a deep understanding of API selection, as well as the constraints that might influence such a selection. This balanced approach ensures a comprehensive understanding of the API usage within the given context.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 13,
+      "parent_id": "314225331c8e67cfcfa041cbaada4161",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "Code Example code for accomplishing the task. We de-prioritize this as we haven’t tested the execution result of the code. We leave this for future works, but make this data available in-case others want to build on it.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 13,
+      "parent_id": "314225331c8e67cfcfa041cbaada4161",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "8.2 Gorilla Details",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 13,
+      "filename": "9hnja.pdf",
+      "category": "Title"
+    }
+  },
+  {
+    "pageContent": "We provide all the training details for Gorilla in this section. This includes how we divide up the training, evaluation dataset, training hyperparameters for Gorilla.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 13,
+      "parent_id": "0d882d9fca8bb7598e9b12c3b3fd01ec",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "Data For HuggingFace, we devise the entire dataset into 90% training and 10% evaluation. For Torch Hub and Tensor Hub, we devise the data in to 80% training and 20% testing.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 13,
+      "parent_id": "0d882d9fca8bb7598e9b12c3b3fd01ec",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "Training We train Gorillafor 5 epochs with the 2e-5 learning rate with cosine decay. The details are provide in Tab. 4. We finetune it on 8xA100 with 40G memory each.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 13,
+      "parent_id": "0d882d9fca8bb7598e9b12c3b3fd01ec",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "13",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 13,
+      "filename": "9hnja.pdf",
+      "category": "Footer"
+    }
+  },
+  {
+    "pageContent": "Torch Hub domain names: Classification, Semantic Segmentation, Object Detection, Audio Separation, Video Classification, Text-to-Speech",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 14,
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "Tensor Hub domain names: text-sequence-alignment, text-embedding, text-language- model, text-preprocessing, text-classification, text-generation, text-question-answering, text- retrieval-question-answering, text-segmentation, text-to-mel, image-classification, image- feature-vector, image-object-detection, image-segmentation, image-generator, image-pose- detection, image-rnn-agent, image-augmentation, image-classifier, image-style-transfer, image-aesthetic-quality, image-depth-estimation, image-super-resolution, image-deblurring, image-extrapolation, image-text-recognition, image-dehazing, image-deraining, image- enhancemenmt, image-classification-logits, image-frame-interpolation, image-text-detection, image-denoising, image-others, video-classification, video-feature-extraction, video- generation, video-audio-text, video-text, audio-embedding, audio-event-classification, audio- command-detection, audio-paralinguists-classification, audio-speech-to-text, audio-speech- synthesis, audio-synthesis, audio-pitch-extraction",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 14,
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "HuggingFace domain names: Multimodal Feature Extraction, Multimodal Text-to-Image, Multimodal Image-to-Text, Multimodal Text-to-Video, Multimodal Visual Question An- swering, Multimodal Document Question Answer, Multimodal Graph Machine Learning, Computer Vision Depth Estimation, Computer Vision Image Classification, Computer Vision Object Detection, Computer Vision Image Segmentation, Computer Vision Image-to-Image, Computer Vision Unconditional Image Generation, Computer Vision Video Classification, Computer Vision Zero-Shor Image Classification, Natural Language Processing Text Classi- fication, Natural Language Processing Token Classification, Natural Language Processing Table Question Answering, Natural Language Processing Question Answering, Natural Lan- guage Processing Zero-Shot Classification, Natural Language Processing Translation, Natural Language Processing Summarization, Natural Language Processing Conversational, Natural Language Processing Text Generation, Natural Language Processing Fill-Mask, Natural Lan- guage Processing Text2Text Generation, Natural Language Processing Sentence Similarity, Audio Text-to-Speech, Audio Automatic Speech Recognition, Audio Audio-to-Audio, Audio Audio Classification, Audio Voice Activity Detection, Tabular Tabular Classification, Tabu- lar Tabular Regression, Reinforcement Learning Reinforcement Learning, Reinforcement Learning Robotics",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 14,
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "Figure 7: Domain names: Domain names with the three dataset. Tensor Hub is the smallest dataset while the other two hubs contain many more models.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 14,
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "Table 4: Hyperparameters for training Gorilla",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 14,
+      "filename": "9hnja.pdf",
+      "category": "FigureCaption"
+    }
+  },
+  {
+    "pageContent": "Hyperparameter Name Value learning rate batch size epochs warmup ratio weight decay max seq length 2e-5 64 5 0.03 0 2048",
+    "metadata": {
+      "text_as_html": "<table><thead><th>Hyperparameter Name</th><th>Value</th></thead><tr><td>learning rate</td><td>2e-5</td></tr><tr><td>batch size</td><td>64</td></tr><tr><td>epochs</td><td>5</td></tr><tr><td>warmup ratio</td><td>0.03</td></tr><tr><td>weight decay</td><td>0</td></tr><tr><td>max seq length</td><td>2048</td></tr></table>",
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 14,
+      "filename": "9hnja.pdf",
+      "category": "Table"
+    }
+  },
+  {
+    "pageContent": "8.3 Performance Comparison",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 14,
+      "filename": "9hnja.pdf",
+      "category": "Title"
+    }
+  },
+  {
+    "pageContent": "We provide a full comparison of each model’s performance in this section. In Fig 10 and Fig. 11, the full set of comparisons is provided. We see that especially in zero-shot case, Gorilla surpasses the GPT-4 and GPT-3.5 by a large margin. The GPT-4 and GPT-3.5 gets around 40% accuracy in Torch Hub and Tensor Hub, which are two structured API calls. Compared to that, HuggingFace is a more flexible and diverse Hub, as a result, the performance on HuggingFace is not as competitive.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 14,
+      "parent_id": "b7dfa6ac874c134b0bd2bef25549c4d4",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "14",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 14,
+      "filename": "9hnja.pdf",
+      "category": "Footer"
+    }
+  },
+  {
+    "pageContent": "### User: Our customer is a zoo and we want to help them detect movement of different animals. Write a python program in 1 to 2 lines to call API in TensorFlowHub. ### Assistant: <domain>: image-object-detection, <api_call>: detector = hub.load(’https://tfhub.dev/google/openimages_v4/ssd_mobilenet_v2/1’), <api_provider>: TensorFlow Hub, <explanation>: This API call loads the pre-trained Single Shot Detector (SSD) MobileNet V2 model from TensorFlow Hub, which has been trained on the Open Images v4 dataset. This model is used for object detection in images. Once loaded, you can pass an image (and an optional score threshold for detection confidence) to the detector to get back the detected objects along with their bounding boxes, class labels, and associated confidence scores. <code>: import tensorflow as tf; import tensorflow_hub as hub; # Load the SSD MobileNet V2 model; detector = hub.load(’https://tfhub.dev/google/openimages_v4/ssd_mobilenet_v2/1’); # Use the model to detect objects in an image (assuming ’image’ is a TensorFlow tensor representing your image); result = detector(image, score_threshold=0.5)",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 15,
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "### User: I am an engineer at Uber and I need to find a API that can classify pedestrians, cars, etc. from an image of the scene. Write a python program in 1 to 2 lines to call API in TorchHub. <Reference API>: function- Traffic Object Detection, Drivable Area Segmentation, Lane Detection, ality: torch.hub.load(repo_or_dir=’datvuthanh/hybridnets’, api_name: HybridNets, api_call: model=’hybridnets’, pretrained=True), api_arguments: repo_or_dir, model, pretrained, python_environment_requirements: Python>=3.7, PyTorch>=1.10, example_code: ’import torch; model = torch.hub.load(’datvuthanh/hybridnets’, ’hybridnets’, pretrained=True); img = torch.randn(1,3,640,384); features, regression, classification, anchors, segmentation = model(img), performance: dataset: [name: BDD100K, accuracy: Traffic Object Detection: Recall (%): 92.8, mAP@0.5 (%): 77.3, Drivable Area Segmentation: Drivable mIoU (%): 90.5, Lane Line Detection: Accuracy (%): 85.4, Lane Line IoU (%): 31.6], description: HybridNets is an end2end perception network for multi-tasks. Our work focused on traffic object detection, drivable area segmentation and lane detection. HybridNets can run real-time on embedded systems, and obtains SOTA Object Detection, Lane Detection on BDD100K Dataset.} ### Assistant: <domain>: Object Detection, <api_call>: model = torch.hub.load(’datvuthanh/hybridnets’, ’hybridnets’, pretrained=True), <api_provider>: PyTorch, <explanation>: Load the pretrained HybridNets model for object detection from PyTorch Hub to classify pedestrians, cars, etc. in an image of the scene, <code>: import torch; model = torch.hub.load(’datvuthanh/hybridnets’, ’hybridnets’, pre- trained=True)",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 15,
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "Figure 8: Example of the Dataset: Two examples of the dataset, the above one is zero-shot (without information retrievers) and the bottom one is with information retriever.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 15,
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "15",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 15,
+      "filename": "9hnja.pdf",
+      "category": "Footer"
+    }
+  },
+  {
+    "pageContent": "generate_video = pipeline(\"text-to-video\", model=\"your_model_name\")",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 16,
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "vqa tokenizer=\"microsoft/clip-vqa-base\") = pipeline(\"visual-question-answering\", model=\"microsoft/clip-vqa-base\",",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 16,
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "depth_estimator = pipeline(\"depth-estimation\", model=\"intel-isl/MiDaS\", tokenizer=\"intel- isl/MiDaS\")",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 16,
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "Figure 9: Hallucination Examples: GPT-4 incurs serious hallucination errors in HuggingFace. We show a couple of examples in the figure.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 16,
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "8.3.1 Evaluation",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 16,
+      "filename": "9hnja.pdf",
+      "category": "Title"
+    }
+  },
+  {
+    "pageContent": "For ease of evaluation, we manually cleaned up the dataset to make sure each API call domain only contains the valid call in the form of:",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 16,
+      "parent_id": "33821fe47874074ff1336416d9b42ce1",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "API_name(API_arg1, API_arg2, ..., API_argk)",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 16,
+      "parent_id": "33821fe47874074ff1336416d9b42ce1",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "Our framework allows the user to define any combination of the arguments to check. For Torch Hub, we check for the API name torch.hub.load with arguments repo_or_dir and model. For Tensor Hub, we check API name hub.KerasLayer and hub.load with argument handle. For HuggingFace, since there are many API function names, we don’t list all of them here. One specific note is that we require the pretrained_model_name_or_path argument for all the calls except for pipeline. For pipeline, we don’t require the pretrained_model_name_or_path argument since it automatically select a model for you once task is specified.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 16,
+      "parent_id": "33821fe47874074ff1336416d9b42ce1",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "8.3.2 Hallucination",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 16,
+      "filename": "9hnja.pdf",
+      "category": "Title"
+    }
+  },
+  {
+    "pageContent": "We found especially in HuggingFace, the GPT-4 model incurs serious hallucination problems. It would sometimes put a GitHub name that is not associated with the HuggingFace repository in to the domain of pretrained_model_name_or_path. Fig. 9 demonstrates some examples and we also observe that GPT-4 sometimes assumes the user have a local path to the model like your_model_name. This is greatly reduced by Gorilla as we see the hallucination error comparison in Tab. 1.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 16,
+      "parent_id": "f15eecc5a58ca68a70e284de42fc19d7",
+      "filename": "9hnja.pdf",
+      "category": "NarrativeText"
+    }
+  },
+  {
+    "pageContent": "16",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 16,
+      "filename": "9hnja.pdf",
+      "category": "Footer"
+    }
+  },
+  {
+    "pageContent": "100 Torch Hub 0-shot Torch Hub with BM25-Retriever Torch Hub with GPT-Retriever . Torch Hub with Oracle Retriever 80 4 80 4 804 804 66.31 66.12 67.2 59.13 60.21 59,13 60.21 61.82 63.44 60 4 60 4 604 604 48.38 40 4 40 4 38.17 39.78 40.32 40 40 Accuracy Accuracy 35.48 Accuracy Accuracy 204 : 14.51 o 1\" | u 1 1 2: | 1 3: :16.12 | LLAMA GPT-3.5 GPT-4 Claude Gorilla LLAMA GPT-3.5 GPT-4 Claude Gorilla LLAMA GPT-3.5 GPT-4 Claude Gorilla LLAMA GPT-3.5 GPT-4 Claude Gorilla Model Model Model Model 100 HuggingFace 0-shot 1 mI-lugglngFac:e with BM25-Retriever 101 o HuggingFace with GPT-Retriever 1 DoHugglngFace with Oracle Retriever 89.71 91.26 85.06 80 4 80 4 804 80 77.21 71.68 60 4 60 4 ? 60 47.45 47.34 4457 41.37 Accuracy 404 Accuracy 404 Accuracy % Accuracy 40 204 16.81 19.8 204 17.25 16.48 14, 17.03 204 2 10.17 6.1 2.98 o o ol HEEE o-. : J | | | LLAMA GPT-3.5 GPT-4 Claude Gorilla LLAMA GPT-3.5 GPT-4 Claude Gorilla LLAMA GPT-3.5 GPT-4 Claude Gorilla LLAMA GPT-3.5 GPT-4 Claude Gorilla Model Model Model Model 100 Tensorflow Hub 0-shot m‘g’ensorflow Hub with BM25-Retriever DoTensorﬂow Hub with GPT-Retriever 1\")I‘;e nsorflo w Hub with Oracle Retriever 95.03 94.16) 83.79 204 204 804 804 74.74 65.59 64.96 60 4 60 4 54.16 604 55.62 604 55.91 43.94 404 41.75 404 41.89 40 404 Accuracy Accuracy 34.01 35.18 g g 204 20115.62 *l12.s5 9.19 8.9 2:. A r || I I o LLAMA GPT-3.5 GPT-4 Claude Gorilla ¢ LLAMA GPT-3.5 GPT-4 C laude Gorilla ¢ LLAMA GPT-3.5 GPT-4 Claude Gorilla LLAMA GPT-3.5 GPT-4 Claude Gorilla Model Model Model Model",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 17,
+      "filename": "9hnja.pdf",
+      "category": "Image"
+    }
+  },
+  {
+    "pageContent": "Figure 10: Performance: We plot each model’s performance on different configurations. We see that Gorilla performs extremely well in the zero-shot setting. While even when the oracle answer is given, Gorilla is still the best.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 17,
+      "filename": "9hnja.pdf",
+      "category": "FigureCaption"
+    }
+  },
+  {
+    "pageContent": "17",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 17,
+      "filename": "9hnja.pdf",
+      "category": "Footer"
+    }
+  },
+  {
+    "pageContent": "Torch Hub 0-shot Torch Hub with BM25-Retriever Torch Hub with GPT-Retriever Torch Hub with Oracle Retriever - g 100 100 g 90 90 80 80 70 70 60 60 . Gorilla 50 50 GP1-3.5 40 40 Accuracy ciNa Accuracy Accuracy Accuracy 30 30 2 8 & 8 8 2 & 8 20 20 2 8 & 8 8 2 & 8 Claude — o 10 10 LLBAA — o LLBAA o LLBAA o LLBAA 10 20 30 40 50 60 70 80 90 100 0 10 20 30 40 50 60 70 80 90 100 0 10 20 30 40 50 60 70 80 90 100 0 10 20 30 40 50 60 70 80 90 100 Hallucination Hallucination Hallucination Hallucination HuggingFace 0-shot HuggingFace with BM25-Retriever HuggingFace with GPT-Retriever HuggingFace with Oracle Retriever - g 100 100 g 90 90 80 80 ot Claude Gorilla 70 70 60 60 50 50 40 40 Accuracy Accuracy Accuracy Accuracy 30 30 2 8 & 8 8 2 & 8 20 20 2 8 & 8 8 2 & 8 GQ&% LL&AA 13 10 cotifly. 10 LLBAA 13 o LLA%AA o CIaUdeLLgdA 0 10 20 30 40 50 60 70 80 90 100 0 10 20 30 40 50 60 70 80 90 100 0 10 20 30 40 50 60 70 80 90 100 0 10 20 30 40 50 60 70 80 90 100 Hallucination Hallucination Hallucination Hallucination Tensorflow Hub 0-shot Tensorflow Hub with BM25-Retriever Tensorflow Hub with GPT-Retriever Tensorflow Hub with Oracle Retriever - g 100 100 g 90 90 s Gorilla 80 80 70 70 Claude 60 60 GB#&S Claude oiha 50 GP'P3. 5 50 40 40 GP 4 Accuracy GP*3.5 Accuracy Gorilla Accuracy Accuracy 30 cuﬁd@ﬁ.a 30 2 8 & 8 8 2 & 8 20 20 2 8 & 8 8 2 & 8 GI&‘% LLBAA Claude 10 LLA%AA 10 — o LLBAA o LLBAA 10 20 30 40 50 60 70 80 90 100 0 10 20 30 40 50 60 70 80 90 100 0 10 20 30 40 50 60 70 80 90 100 0 10 20 30 40 50 60 70 80 90 100 Hallucination Hallucination Hallucination Hallucination",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 18,
+      "filename": "9hnja.pdf",
+      "category": "Image"
+    }
+  },
+  {
+    "pageContent": "Figure 11: Accuracy vs Hallucination: We plot each model’s performance on different configurations. We found that in the zero-shot setting, Gorilla has the most accuracy gain while maintaining good factual capability. When prompting with different retrievers, Gorilla is still capable to avoid the hallucination errors.",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 18,
+      "filename": "9hnja.pdf",
+      "category": "FigureCaption"
+    }
+  },
+  {
+    "pageContent": "18",
+    "metadata": {
+      "filetype": "application/pdf",
+      "languages": [
+        "eng"
+      ],
+      "page_number": 18,
+      "filename": "9hnja.pdf",
+      "category": "Footer"
+    }
+  }
+]
