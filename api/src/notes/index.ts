@@ -204,11 +204,11 @@ const generateNotes = async (
 const takeNotes = async ({
   paperUrl,
   name,
-  pagesToDelete,
-}: {
+}: // pagesToDelete,
+{
   paperUrl: string;
   name: string;
-  pagesToDelete?: Array<number>;
+  // pagesToDelete?: Array<number>;
 }) => {
   // get the pdf and use unstructured to turn it into langchain document
   // const unstructred = new UnstructuredLoader("./pdf/notes", "utf-8");
