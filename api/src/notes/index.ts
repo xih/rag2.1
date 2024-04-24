@@ -108,9 +108,6 @@ const convertPDFtoDocuments = async (pdf: Buffer) => {
 };
 
 const convertPDFtoDocuments2 = async (name: string, pdf: Buffer) => {
-  console.log(name, "name");
-  console.log(pdf, "pdf");
-
   textract.fromBufferWithName(
     name,
     pdf,
@@ -180,8 +177,6 @@ const generateNotes = async (
 
   const documentsAsString = formatDocumentsAsString(documents);
 
-  console.log("1. documents as string", documentsAsString);
-
   const model = new ChatOpenAI({
     modelName: "gpt-3.5-turbo-0125",
     temperature: 0.0,
@@ -201,7 +196,7 @@ const generateNotes = async (
   return response;
 };
 
-const takeNotes = async ({
+export const takeNotes = async ({
   paperUrl,
   name,
 }: // pagesToDelete,
@@ -214,6 +209,14 @@ const takeNotes = async ({
   // const unstructred = new UnstructuredLoader("./pdf/notes", "utf-8");
   // 1. load paperFromUrl by defining a function and passing in the paperUrl
   // 2. delete pages that are uncessary
+
+  const database = await SupabaseDatabase.fromExistingIndex();
+
+  const existingPaper = await database.getPaper(paperUrl);
+
+  if (existingPaper) {
+    return existingPaper.notes;
+  }
 
   let pdfBuffer = await loadPaperFromUrl(paperUrl);
 
@@ -251,7 +254,7 @@ const takeNotes = async ({
     };
   });
 
-  const database = await SupabaseDatabase.fromDocuments(newDocs);
+  // const database = await SupabaseDatabase.fromDocuments(newDocs);
 
   const notes = await generateNotes(documents);
 
@@ -272,7 +275,6 @@ const takeNotes = async ({
   return notes;
 };
 
-// console.log(
 //   await takeNotes({
 //     paperUrl: "https://arxiv.org/pdf/2404.14270.pdf",
 //     name: "What do Transformers Know about Government?",
@@ -280,6 +282,5 @@ const takeNotes = async ({
 // );
 
 // const output = await convertedPDFtoDocuments3(`src/pdfs/6l5ve.pdf`);
-// console.log(output);
 
 // console.log(await convertedPDFtoDocuments4(`src/pdfs/6l5ve.pdf`, true));

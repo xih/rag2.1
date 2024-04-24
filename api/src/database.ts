@@ -35,6 +35,28 @@ export class SupabaseDatabase {
   //   // generate embeddings from this
   // }
 
+  static async fromExistingIndex() {
+    const privateKey = process.env.SUPABASE_PRIVATE_KEY;
+    const projectUrl = process.env.SUPABASE_URL;
+
+    if (!privateKey || !projectUrl) {
+      throw new Error("missing supabase credentials");
+    }
+
+    const client = createClient<Database>(projectUrl, privateKey);
+
+    const vectorStore = await SupabaseVectorStore.fromExistingIndex(
+      new OpenAIEmbeddings(),
+      {
+        client: client,
+        tableName: ARXIV_EMBEDDINGS_TABLE,
+        queryName: "match_documents",
+      }
+    );
+
+    return new this(client, vectorStore);
+  }
+
   static async fromDocuments(documents: Document[]) {
     // 0. first check that there is a supabase api key and url
     // 1. pass in an array of documents
@@ -63,6 +85,22 @@ export class SupabaseDatabase {
     );
 
     return new this(client, vectorStore);
+  }
+
+  async getPaper(
+    paperUrl: string
+  ): Promise<Database["public"]["Tables"]["arxiv_papers"]["Row"] | null> {
+    const { data, error } = await this.client
+      .from(ARXIV_PAPERS_TABLE)
+      .select()
+      .eq("arxiv_url", paperUrl);
+
+    if (error || !data) {
+      console.error("error getting paper from the database");
+      return null;
+    }
+
+    return data[0];
   }
 
   async addPaper({
