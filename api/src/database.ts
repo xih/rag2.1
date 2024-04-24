@@ -9,6 +9,7 @@ import { Database } from "generated/db.js";
 import { SupabaseVectorStore } from "langchain/vectorstores/supabase";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { ArxivPaperNote } from "notes/prompt.js";
+import { formatDocumentsAsString } from "langchain/util/document";
 
 export const ARXIV_EMBEDDINGS_TABLE = "arxiv_embeddings";
 export const ARXIV_PAPERS_TABLE = "arxiv_papers";
@@ -126,5 +127,26 @@ export class SupabaseDatabase {
     }
 
     return data;
+  }
+
+  async saveQa(
+    question: string,
+    answer: string,
+    followupQuestions: string[],
+    context: string
+  ) {
+    const { error } = await this.client.from(ARXIV_QUESTION_ANSWERING).insert({
+      answer,
+      question,
+      followup_questions: followupQuestions,
+      context: context,
+    });
+
+    if (error) {
+      console.error("error inserting questions into the database");
+      throw error;
+    }
+
+    return;
   }
 }

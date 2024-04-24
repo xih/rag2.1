@@ -1,6 +1,7 @@
 // create an express server
 import express from "express";
 import { takeNotes } from "notes/index.js";
+import { qaOnPaper } from "qa/index.js";
 // import { qaOnPaper } from "qa/index.js";
 
 const processPagesToDelete = (pagesToDelete: string): number[] => {
@@ -37,14 +38,14 @@ function main() {
     return;
   });
 
-  // app.post("/qa", async (req, res) => {
-  //   const { question, paperUrl } = req.body;
+  app.post("/qa", async (req, res) => {
+    const { question, paperUrl } = req.body;
 
-  //   const answerAndQuestions = await qaOnPaper(question, paperUrl);
+    const answerAndQuestions = await qaOnPaper(question, paperUrl);
 
-  //   res.status(200).send(answerAndQuestions);
-  //   return;
-  // });
+    res.status(200).send(answerAndQuestions);
+    return;
+  });
 
   app.listen(port, () => {
     console.log(`server is listening on http://localhost:${port}`);
